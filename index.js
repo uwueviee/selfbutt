@@ -28,7 +28,6 @@ function checkForUpdate () {
   request(options, function (err, res, body) {
     if (err) throw err
     let json = JSON.parse(body)
-    console.log(json)
     if (packageJSON.version === json.version) {
       console.log('SelfButt is up to date!')
       console.log('Ready!')
