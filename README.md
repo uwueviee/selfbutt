@@ -24,7 +24,7 @@ To-Do
 	- [ ] Song Search
 - [X] Google Search
 - [X] Chat Logging
-	- [ ] Disable Chat Logging
+	- [X] Disable Chat Logging
 - [ ] Custom Command Support
 - [X] Update Checker
 

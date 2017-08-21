@@ -3,5 +3,6 @@
 	"prefix":"sb.",
 	"snipLocation":"ENTER SNIP LOCATION",
 	"ownerID":"ENTER YOUR ID",
-	"logChannel":"ENTER A CHANNEL FOR LOGGING"
+	"logChannel":"ENTER A CHANNEL FOR LOGGING",
+	"chatLogging":"Y"
 }
