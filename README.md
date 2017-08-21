@@ -7,6 +7,9 @@
   <p align="center">
     <a href="https://circleci.com/gh/Noculi/selfbutt"><img src="https://circleci.com/gh/Noculi/selfbutt/tree/master.svg?style=svg&circle-token=a9d3bb657f2bff6ca4ffdbf125ceaf902f969a1f"></a>
   <br>
+  <p align="center">
+    <a href='https://gemnasium.com/github.com/Noculi/selfbutt'><img src="https://gemnasium.com/badges/github.com/Noculi/selfbutt.svg" alt="Dependency Status" /></a>
+  <br>
 </p>
 </div>
 
