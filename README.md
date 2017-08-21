@@ -1,6 +1,11 @@
-# SelfButt
-### A Discord self bot.
-
+<div align="center">
+  <h1 align="center">SelfButt</h1>
+  <strong>A Discord SelfBot.</strong><br/><br/>
+  <p align="center">
+    <a href="https://github.com/feross/standard"><img src="https://cdn.rawgit.com/feross/standard/master/badge.svg"></a>
+  <br>
+</p>
+</div>
 
 Current Features
 ------	
