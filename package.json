@@ -1,10 +1,11 @@
 {
   "name": "SelfButt",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A Discord self bot.",
   "main": "index.js",
   "scripts": {
-    "test": "standard"
+    "test": "standard",
+    "start":"node index.js"
   },
   "author": "Noculi",
   "license": "GPLv3",
