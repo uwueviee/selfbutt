@@ -3,6 +3,7 @@
   <strong>A Discord SelfBot.</strong><br/><br/>
   <p align="center">
     <a href="https://github.com/feross/standard"><img src="https://cdn.rawgit.com/feross/standard/master/badge.svg"></a>
+    <a href="https://circleci.com/gh/Noculi/selfbutt"><img src="https://circleci.com/gh/Noculi/selfbutt/tree/master.svg?style=svg&circle-token=a9d3bb657f2bff6ca4ffdbf125ceaf902f969a1f"></a>
   <br>
 </p>
 </div>
