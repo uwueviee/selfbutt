@@ -3,8 +3,10 @@
 
 
 Current Features
-------
-Nothing
+------	
+* Automatic Song Updating with Logging
+* Google Searching
+* Chat Logging
 
 To-Do
 ------
