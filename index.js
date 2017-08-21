@@ -38,19 +38,19 @@ function checkForUpdate () {
   })
 }
 
-bot.on('messageCreate', (msg) => { // When a message is created
+bot.on('messageCreate', (msg) => {
   if (msg.author.id === ownerID) {
     if (msg.content === prefix + 'ping') {
       bot.createMessage(msg.channel.id, {
         embed: {
-          title: 'Hey!', // Title of the embed
+          title: 'Hey!',
           description: "I'm alive, don't worry!",
-          author: { // Author property
+          author: {
             name: msg.author.username,
             icon_url: msg.author.avatarURL
           },
-          color: 0x008000, // Color, either in hex (show), or a base-10 integer
-          footer: { // Footer text
+          color: 0x008000,
+          footer: {
             text: 'SelfButt 0.1 by Noculi'
           }
         }
@@ -65,29 +65,28 @@ bot.on('messageCreate', (msg) => { // When a message is created
         logItPls('Song updated to ' + data)
         bot.createMessage(msg.channel.id, {
           embed: {
-            title: 'Hey!', // Title of the embed
+            title: 'Hey!',
             description: "I'll go ahead and do that really quickly! (Song name is '" + data + "')",
-            author: { // Author property
+            author: {
               name: msg.author.username,
               icon_url: msg.author.avatarURL
             },
-            color: 0x008000, // Color, either in hex (show), or a base-10 integer
-            footer: { // Footer text
+            color: 0x008000,
+            footer: {
               text: 'SelfButt 0.1 by Noculi'
             }
           }
         })
       })
     } else if (msg.content.startsWith(prefix + 'google')) {
-      var playCommand = 'sb.google'
-      if (msg.content.length <= playCommand.length + 1) { // Check if a filename was specified
+      var searchCommand = prefix + 'google'
+      if (msg.content.length <= searchCommand.length + 1) {
         bot.createMessage(msg.channel.id, 'Please specify a search term.')
         return
       }
-      var filename = msg.content.substring(playCommand.length + 1) // Get the filename
+      var filename = msg.content.substring(searchCommand.length + 1)
       google.resultsPerPage = 25
       var nextCounter = 0
-      console.log('Google Called')
       google(filename, function (err, res) {
         if (err) throw err
         bot.createMessage(msg.channel.id, 'Here are the top 4 results!')
@@ -95,14 +94,14 @@ bot.on('messageCreate', (msg) => { // When a message is created
           var link = res.links[i]
           bot.createMessage(msg.channel.id, {
             embed: {
-              title: link.title + ' - ' + link.href, // Title of the embed
+              title: link.title + ' - ' + link.href,
               description: link.description + '\n',
-              author: { // Author property
+              author: {
                 name: 'Google Search',
-                icon_url: 'https://maxcdn.icons8.com/Share/icon/Logos//google_logo1600.png'
+                icon_url: 'https://s-media-cache-ak0.pinimg.com/736x/66/00/18/6600188f65aa2e4cc2cd29017cb27662.jpg'
               },
-              color: 0x008000, // Color, either in hex (show), or a base-10 integer
-              footer: { // Footer text
+              color: 0x008000,
+              footer: {
                 text: 'SelfButt 0.1 by Noculi'
               }
             }
@@ -125,7 +124,7 @@ bot.on('messageCreate', (msg) => {
     var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
     var finalMessage = time + ']' + ' [' + msg.author.username + '#' + msg.author.discriminator + '] ' + msg.content + os.EOL
     var finalPath = './logs/groups/' + msg.channel.id + '.txt'
-    if (!msg.channel.guild) { // Check if the message was sent in a guild
+    if (!msg.channel.guild) {
       mkdirp('./logs/groups/', function (err) {
         if (err) throw err
         fs.appendFile(finalPath, finalMessage, function (err) {
@@ -152,8 +151,7 @@ setInterval(function () {
         console.log('Song was already ' + data + '. Skipping change.')
       } else {
         writeSongTxt(data)
-        console.log('OK: ' + location)
-        console.log(data)
+        console.log('Song updated to "' + data + '"')
         bot.editStatus({name: '🎶 ' + data, type: 0})
         logItPls('Song updated to ' + data)
       }
@@ -172,10 +170,10 @@ function writeSongTxt (song) {
 function logItPls (whathappened) {
   bot.createMessage(config.logChannel, {
     embed: {
-      title: 'Hey! Look a log!', // Title of the embed
+      title: 'Hey! Look a log!',
       description: whathappened,
-      color: 0x008000, // Color, either in hex (show), or a base-10 integer
-      footer: { // Footer text
+      color: 0x008000,
+      footer: {
         text: 'SelfButt 0.1 by Noculi'
       }
     }
@@ -186,6 +184,7 @@ bot.connect()
 if (fs.existsSync('lastsong.txt')) {
   checkForUpdate()
 } else {
+  logItPls("Looks like you're new to SelfButt! You can take a look on the wiki for commands!")
   writeSongTxt('SelfButt First Boot')
   checkForUpdate()
 }
