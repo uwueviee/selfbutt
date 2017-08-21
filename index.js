@@ -121,23 +121,25 @@ bot.on('messageCreate', (msg) => { // When a message is created
 })
 
 bot.on('messageCreate', (msg) => {
-  var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
-  var finalMessage = time + ']' + ' [' + msg.author.username + '#' + msg.author.discriminator + '] ' + msg.content + os.EOL
-  var finalPath = './logs/groups/' + msg.channel.id + '.txt'
-  if (!msg.channel.guild) { // Check if the message was sent in a guild
-    mkdirp('./logs/groups/', function (err) {
-      if (err) throw err
-      fs.appendFile(finalPath, finalMessage, function (err) {
+  if (config.chatLogging === 'Y') {
+    var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
+    var finalMessage = time + ']' + ' [' + msg.author.username + '#' + msg.author.discriminator + '] ' + msg.content + os.EOL
+    var finalPath = './logs/groups/' + msg.channel.id + '.txt'
+    if (!msg.channel.guild) { // Check if the message was sent in a guild
+      mkdirp('./logs/groups/', function (err) {
         if (err) throw err
+        fs.appendFile(finalPath, finalMessage, function (err) {
+          if (err) throw err
+        })
       })
-    })
-  } else {
-    mkdirp('./logs/' + '/' + msg.channel.guild.name + '/', function (err) {
-      if (err) throw err
-      fs.appendFile(finalPath, finalMessage, function (err) {
+    } else {
+      mkdirp('./logs/' + '/' + msg.channel.guild.name + '/', function (err) {
         if (err) throw err
+        fs.appendFile(finalPath, finalMessage, function (err) {
+          if (err) throw err
+        })
       })
-    })
+    }
   }
 })
 
