@@ -22,6 +22,10 @@ Current Features
 To-Do
 ------
 - [ ] UI for controlling the bot
+  - [X] Shutdown / Reboot
+  - [X] Stats
+  - [X] Logs
+  - [ ] Config
 - [X] Song Updates
 	- [X] Song Update Logging
 	- [X] Manual Song Updates
@@ -35,6 +39,6 @@ To-Do
 Starting it up
 ------
 1. Do `npm install` to get all required modules
-2. Copy and rename example-config.json to config.json
+2. Copy and rename example-config.json to config.json and move it into the `semi-public` folder
 3. Fill out the elements in config.json
 4. Do `npm start`
