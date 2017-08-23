@@ -207,9 +207,7 @@ if (fs.existsSync('lastsong.txt')) {
   checkForUpdate()
 }
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
+app.use(express.static('public'))
 
 app.get('/apiV1/shutdown', function (req, res) {
   console.log('Shutting down SelfButt.')
