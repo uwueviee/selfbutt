@@ -173,11 +173,14 @@ function writeSongTxt (song) {
   })
 }
 
-function writeStatsTxt (stats) {
-  fs.writeFile('stats.txt', stats, function (err) {
-    if (err) {
-      return webLogger(err)
-    }
+function writeLogsTxt (data) {
+  mkdirp('./semi-public/', function (err) {
+    if (err) throw err
+    fs.writeFile('./semi-public/logs.txt', data, function (err) {
+      if (err) {
+        return webLogger(err)
+      }
+    })
   })
 }
 
@@ -207,15 +210,16 @@ bot.connect()
 process.title = 'SelfButt'
 if (fs.existsSync('lastsong.txt')) {
   checkForUpdate()
-  writeStatsTxt('')
+  writeLogsTxt('')
 } else {
   logItPls("Looks like you're new to SelfButt! You can take a look on the wiki for commands!")
   writeSongTxt('SelfButt First Boot')
-  writeStatsTxt('Cleared')
+  writeLogsTxt('')
   checkForUpdate()
 }
 
 app.use(express.static('public'))
+app.use(express.static('semi-public'))
 
 app.get('/apiV1/shutdown', function (req, res) {
   webLogger('Shutting down SelfButt.')
@@ -240,8 +244,8 @@ app.listen(3000, function () {
 
 function webLogger (data) {
   var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
-  var finalMessage = time + ']' + data + os.EOL
-  fs.appendFile('stats.txt', finalMessage, function (err) {
+  var finalMessage = time + '] ' + data + os.EOL
+  fs.appendFile('./semi-public/logs.txt', finalMessage, function (err) {
     if (err) throw err
   })
 }
