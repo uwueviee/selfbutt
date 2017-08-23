@@ -211,13 +211,13 @@ app.use(express.static('public'))
 
 app.get('/apiV1/shutdown', function (req, res) {
   console.log('Shutting down SelfButt.')
-  res.send('Shutting Down.')
+  res.send('<h1>Server has caught fire</h1><br /><i>Same thing as shutting down right?</i><br /><img src="https://i.imgur.com/daF13vl.gif" />')
   process.exit(0)
 })
 
 app.get('/apiV1/reboot', function (req, res) {
   console.log('Rebooting SelfButt. NOTE: DUE TO A BUG, YOU WILL NOT BE ABLE TO SEE ANY OF THE NEW LOGS HERE OR BE ABLE TO END IT HERE! USE "http://localhost:3000/apiV1/shutdown" TO SHUT IT DOWN!')
-  res.send('Rebooting. NOTE: DUE TO A BUG, THE CURRENT BASH WINDOW WLL CLOSE AND YOU WILL NOT BE ABLE TO SEE LOGS OR SHUTDOWN USING "Ctrl/Command + C"! USE "http://localhost:3000/apiV1/shutdown" TO SHUT IT DOWN!')
+  res.send('Rebooting. <a href="http://localhost:3000/">Click here to go back to the dashboard</a>')
   startNet()
   process.exit(0)
 })
