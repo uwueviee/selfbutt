@@ -57,8 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 
-# Remove selfbutt config and lastsong file
+# Remove any private files made by SelfButt
 semi-public/
-config.json
 lastsong.txt
-stats.txt

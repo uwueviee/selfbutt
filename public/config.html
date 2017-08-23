@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>SelfButt Admin</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="css/fullcalendar.css" />
+<link rel="stylesheet" href="css/matrix-style.css" />
+<link rel="stylesheet" href="css/matrix-media.css" />
+<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="css/jquery.gritter.css" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+<!--Header-part-->
+<div id="header">
+  <h3 style="padding-top: 15px; padding-left: 50px; color: white">SelfButt</h3> 
+</div>
+<!--close-Header-part--> 
+
+
+<!--top-Header-menu-->
+<div id="user-nav" class="navbar navbar-inverse">
+</div>
+<!--close-top-Header-menu-->
+<!--sidebar-menu-->
+<div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
+  <ul>
+    <li> <a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
+    <li> <a href="graphs.html"><i class="icon icon-signal"></i> <span>Graphs</span></a> </li>
+    <li class="active"> <a href="config.html"><i class="icon icon-wrench"></i> <span>Config</span></a> </li>
+  </ul>
+</div>
+<!--sidebar-menu-->
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="#" title="Home is where the bots live" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Config</a> </div>
+    <h1>Config</h1>
+  </div>
+  <div class="container-fluid">
+    <hr>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-content nopadding">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Current Setting</th>
+                  <th>Input</th>
+                </tr>
+              </thead>
+              <tbody>
+                <form class="form-inline">
+                <tr class="odd gradeX">
+                  <td>token</td>
+                  <td id="token">Internet
+                    Explorer 4.0</td>
+                  <td><div class="form-group"><input type="password" class="form-control" id="token"></div></td>
+                </tr>
+                <tr class="odd gradeX">
+                  <td>prefix</td>
+                  <td id="prefix">Internet
+                    Explorer 4.0</td>
+                  <td><div class="form-group"><input type="text" class="form-control" id="prefix"></div></td>
+                </tr>
+                <tr class="odd gradeX">
+                  <td>snipLocation</td>
+                  <td id="snipLocation">Internet
+                    Explorer 4.0</td>
+                  <td><div class="form-group"><input type="text" class="form-control" id="snipLocation"></div></td>
+                </tr>
+                <tr class="odd gradeX">
+                  <td>ownerID</td>
+                  <td id="ownerID">Internet
+                    Explorer 4.0</td>
+                  <td><div class="form-group"><input type="text" class="form-control" id="ownerID"></div></td>
+                </tr>
+                <tr class="even gradeC">
+                  <td>logChannel</td>
+                  <td id="logChannel">Internet
+                    Explorer 5.0</td>
+                  <td><div class="form-group"><input type="text" class="form-control" id="logChannel"></div></td>
+                </tr>
+                <tr class="odd gradeA">
+                  <td>chatLogging (Can only be set to Y/N)</td>
+                  <td id="chatLogging">Internet
+                    Explorer 5.5</td>
+                  <td><input type="text" class="form-control" id="logChannel"></div></td>
+                </tr>
+                <tr class="even gradeA">
+                  <td>discogsToken</td>
+                  <td id="discogsToken">Internet
+                    Explorer 6</td>
+                  <td><div class="form-group"><input type="password" class="form-control" id="discogsToken"></div></td>
+                </tr>
+                </form>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Loaded Commands</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                  <th>Command Name</th>
+                  <th>Loaded From</th>
+                  <th>Enabled</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="ping">
+                  <td>ping</td>
+                  <td>index.js</td>
+                  <td>Yes</td>
+                </tr>
+                <tr class="loadSong">
+                  <td>loadSong</td>
+                  <td>index.js</td>
+                  <td>Yes</td>
+                </tr>
+                <tr class="google">
+                  <td>google</td>
+                  <td>index.js</td>
+                  <td>Yes</td>
+                </tr>
+                <tr class="searchSong">
+                  <td>searchSong</td>
+                  <td>index.js</td>
+                  <td>No</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Footer-part-->
+<div class="row-fluid">
+  <div id="footer" class="span12"> 2017 &copy; Noculi.</div>
+</div>
+<!--end-Footer-part-->
+<script src="js/jquery.min.js"></script> 
+<script src="js/jquery.ui.custom.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/jquery.uniform.js"></script> 
+<script src="js/select2.min.js"></script> 
+<script src="js/jquery.dataTables.min.js"></script> 
+<script src="js/matrix.js"></script> 
+<script src="js/matrix.tables.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+<script>
+var jsonData = {}
+$.getJSON('./config.json', function(data) {
+  jsonData = data
+  var token = jsonData.token
+  var prefix = jsonData.prefix
+  var snipLocation = jsonData.snipLocation
+  var ownerID = jsonData.ownerID
+  var logChannel = jsonData.logChannel
+  var chatLogging = jsonData.chatLogging
+  var discogsToken = jsonData.discogsToken
+  $('#token').text(token)
+  $('#prefix').text(prefix)
+  $('#snipLocation').text(snipLocation)
+  $('#ownerID').text(ownerID)
+  $('#logChannel').text(logChannel)
+  $('#chatLogging').text(chatLogging)
+  $('#discogsToken').text(discogsToken)
+})
+</script>
+</body>
+</html>

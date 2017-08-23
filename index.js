@@ -11,7 +11,7 @@ const app = express()
 const packageJSON = require('./package.json')
 
 // Load Config
-var config = require('./config.json')
+var config = require('./semi-public/config.json')
 
 var bot = new Eris(config.token)
 var ownerID = config.ownerID
@@ -237,6 +237,7 @@ function statSaving () {
 }
 
 bot.connect()
+console.log('You can manage your bot over at "http://localhost:3000"')
 process.title = 'SelfButt'
 if (fs.existsSync('./semi-public/lastsong.txt')) {
   checkForUpdate()
