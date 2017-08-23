@@ -1,6 +1,6 @@
 {
   "name": "SelfButt",
-  "version": "0.1.6",
+  "version": "0.1.7-webui",
   "description": "A Discord self bot.",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,7 @@
   "dependencies": {
     "discogs-client": "^0.5.1",
     "eris": "github:abalabahaha/eris#dev",
+    "express": "^4.15.4",
     "google": "^2.1.0",
     "mkdirp": "^0.5.1",
     "moment": "^2.18.1",
@@ -19,5 +20,10 @@
   },
   "devDependencies": {
     "standard": "^10.0.3"
+  },
+  "standard": {
+    "ignore": [
+      "/public/"
+    ]
   }
 }
