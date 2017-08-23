@@ -1,6 +1,6 @@
 {
   "name": "SelfButt",
-  "version": "0.1.7-webui",
+  "version": "0.2.0",
   "description": "A Discord self bot.",
   "main": "index.js",
   "scripts": {
