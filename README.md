@@ -21,11 +21,12 @@ Current Features
 
 To-Do
 ------
+- [ ] UI for controlling the bot
 - [X] Song Updates
 	- [X] Song Update Logging
 	- [X] Manual Song Updates
 	- [ ] Song Search
-- [X] Google Search
+- [X] Google Searchs
 - [X] Chat Logging
 	- [X] Disable Chat Logging
 - [ ] Custom Command Support
