@@ -31,6 +31,7 @@
   <ul>
     <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
     <li> <a href="graphs.html"><i class="icon icon-signal"></i> <span>Graphs</span></a> </li>
+    <li> <a href="config.html"><i class="icon icon-signal"></i> <span>Config</span></a> </li>
   </ul>
 </div>
 <!--sidebar-menu-->
@@ -124,33 +125,33 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-  function loadLogs (){
-    $('#chat-messages').load('../logs.txt');
+  function loadLogs () {
+    $('#chat-messages').load('../logs.txt')
   }
-  function loadSongs (){
-    $('#lastsong').load('../lastsong.txt');
+  function loadSongs () {
+    $('#lastsong').load('../lastsong.txt')
   }
-  function loadUsers (){
-    $('#numberUsers').load('../stats/numberOfUsers.txt');
+  function loadUsers () {
+    $('#numberUsers').load('../stats/numberOfUsers.txt')
   }
-  function loadGuilds (){
-    $('#numberGuilds').load('../stats/numberOfGuilds.txt');
+  function loadGuilds () {
+    $('#numberGuilds').load('../stats/numberOfGuilds.txt')
   }
-  function loadChannels (){
-    $('#numberChannels').load('../stats/numberOfChannels.txt');
+  function loadChannels () {
+    $('#numberChannels').load('../stats/numberOfChannels.txt')
   }
-setInterval(function () {
-	loadLogs()
-	loadSongs()
-	loadUsers()
-	loadGuilds()
-	loadChannels()
-}, 5000)
-loadLogs()
-loadSongs()
-loadUsers()
-loadGuilds()
-loadChannels()
+  setInterval(function () {
+    loadLogs()
+    loadSongs()
+    loadUsers()
+    loadGuilds()
+    loadChannels()
+  }, 5000)
+  loadLogs()
+  loadSongs()
+  loadUsers()
+  loadGuilds()
+  loadChannels()
 </script>
 
 
