@@ -5,6 +5,5 @@
 	"ownerID":"ENTER YOUR ID",
 	"logChannel":"ENTER A CHANNEL FOR LOGGING",
 	"chatLogging":"Y",
-	"discogsToken":"ENTER DISCOGS PERSONAL ACCESS TOKEN",
-	"webUI":"Y"
+	"discogsToken":"ENTER DISCOGS PERSONAL ACCESS TOKEN"
 }
