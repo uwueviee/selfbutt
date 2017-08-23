@@ -32,11 +32,11 @@ function checkForUpdate () {
     if (err) throw err
     let json = JSON.parse(body)
     if (packageJSON.version === json.version) {
-      console.log('SelfButt is up to date!')
-      console.log('Ready!')
+      webLogger('SelfButt is up to date!')
+      webLogger('Ready!')
     } else {
-      console.log('There is a new update for SelfButt!')
-      console.log('Ready! (But you should update)')
+      webLogger('There is a new update for SelfButt!')
+      webLogger('Ready! (But you should update)')
     }
   })
 }
@@ -61,8 +61,7 @@ bot.on('messageCreate', (msg) => {
     } else if (msg.content === prefix + 'loadSong') {
       fs.readFile(location, 'utf8', function (err, data) {
         if (err) throw err
-        console.log('OK: ' + location)
-        console.log(data)
+        webLogger(data)
         writeSongTxt(data)
         bot.editStatus({name: '🎶 ' + data, type: 0})
         logItPls('Song updated to ' + data)
@@ -119,7 +118,6 @@ bot.on('messageCreate', (msg) => {
         }
       })
     } else if (msg.content === prefix + 'searchSong') {
-      console.log('e')
       fs.readFile(location, 'utf8', function (err, data) {
         if (err) throw err
       })
@@ -156,10 +154,10 @@ setInterval(function () {
     fs.readFile(location, 'utf8', function (err, data) {
       if (err) throw err
       if (lastSong === data) {
-        console.log('Song was already ' + data + '. Skipping change.')
+        webLogger('Song was already ' + data + '. Skipping change.')
       } else {
         writeSongTxt(data)
-        console.log('Song updated to "' + data + '"')
+        webLogger('Song updated to "' + data + '"')
         bot.editStatus({name: '🎶 ' + data, type: 0})
         logItPls('Song updated to ' + data)
       }
@@ -170,7 +168,15 @@ setInterval(function () {
 function writeSongTxt (song) {
   fs.writeFile('lastsong.txt', song, function (err) {
     if (err) {
-      return console.log(err)
+      return webLogger(err)
+    }
+  })
+}
+
+function writeStatsTxt (stats) {
+  fs.writeFile('stats.txt', stats, function (err) {
+    if (err) {
+      return webLogger(err)
     }
   })
 }
@@ -201,31 +207,41 @@ bot.connect()
 process.title = 'SelfButt'
 if (fs.existsSync('lastsong.txt')) {
   checkForUpdate()
+  writeStatsTxt('')
 } else {
   logItPls("Looks like you're new to SelfButt! You can take a look on the wiki for commands!")
   writeSongTxt('SelfButt First Boot')
+  writeStatsTxt('Cleared')
   checkForUpdate()
 }
 
 app.use(express.static('public'))
 
 app.get('/apiV1/shutdown', function (req, res) {
-  console.log('Shutting down SelfButt.')
+  webLogger('Shutting down SelfButt.')
   res.send('<h1>Server has caught fire</h1><br /><i>Same thing as shutting down right?</i><br /><img src="https://i.imgur.com/daF13vl.gif" />')
   process.exit(0)
 })
 
 app.get('/apiV1/reboot', function (req, res) {
-  console.log('Rebooting SelfButt. NOTE: DUE TO A BUG, YOU WILL NOT BE ABLE TO SEE ANY OF THE NEW LOGS HERE OR BE ABLE TO END IT HERE! USE "http://localhost:3000/apiV1/shutdown" TO SHUT IT DOWN!')
+  webLogger('Rebooting SelfButt. NOTE: DUE TO A BUG, YOU WILL NOT BE ABLE TO SEE ANY OF THE NEW LOGS HERE OR BE ABLE TO END IT HERE! USE "http://localhost:3000/apiV1/shutdown" TO SHUT IT DOWN!')
   res.send('Rebooting. <a href="http://localhost:3000/">Click here to go back to the dashboard</a>')
   startNet()
   process.exit(0)
 })
 
 app.get('/apiV1/configChange', function (req, res) {
-  console.log('Changing SelfButt config.')
+  webLogger('Changing SelfButt config.')
 })
 
 app.listen(3000, function () {
-  console.log('SelfButt WebUI listening on port 3000!')
+  webLogger('SelfButt WebUI listening on port 3000!')
 })
+
+function webLogger (data) {
+  var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
+  var finalMessage = time + ']' + data + os.EOL
+  fs.appendFile('stats.txt', finalMessage, function (err) {
+    if (err) throw err
+  })
+}

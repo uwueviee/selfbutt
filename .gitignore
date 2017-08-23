@@ -60,3 +60,4 @@ typings/
 # Remove selfbutt config and lastsong file
 config.json
 lastsong.txt
+stats.txt
