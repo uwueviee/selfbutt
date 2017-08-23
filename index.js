@@ -5,6 +5,8 @@ const moment = require('moment')
 const mkdirp = require('mkdirp')
 const google = require('google')
 const request = require('request')
+const express = require('express')
+const app = express()
 // const Discogs = require('discogs-client')
 const packageJSON = require('./package.json')
 
@@ -186,7 +188,17 @@ function logItPls (whathappened) {
   })
 }
 
+function startNet () {
+  var spawn = require('child_process').spawn
+  var child = spawn('node', ['index.js'], {
+    detached: true,
+    stdio: [ 'ignore', 'ignore', 'ignore' ]
+  })
+  child.unref()
+}
+
 bot.connect()
+process.title = 'SelfButt'
 if (fs.existsSync('lastsong.txt')) {
   checkForUpdate()
 } else {
@@ -194,3 +206,28 @@ if (fs.existsSync('lastsong.txt')) {
   writeSongTxt('SelfButt First Boot')
   checkForUpdate()
 }
+
+app.get('/', function (req, res) {
+  res.send('Hello World!')
+})
+
+app.get('/apiV1/shutdown', function (req, res) {
+  console.log('Shutting down SelfButt.')
+  res.send('Shutting Down.')
+  process.exit(0)
+})
+
+app.get('/apiV1/reboot', function (req, res) {
+  console.log('Rebooting SelfButt. NOTE: DUE TO A BUG, YOU WILL NOT BE ABLE TO SEE ANY OF THE NEW LOGS HERE OR BE ABLE TO END IT HERE! USE "http://localhost:3000/apiV1/shutdown" TO SHUT IT DOWN!')
+  res.send('Rebooting. NOTE: DUE TO A BUG, THE CURRENT BASH WINDOW WLL CLOSE AND YOU WILL NOT BE ABLE TO SEE LOGS OR SHUTDOWN USING "Ctrl/Command + C"! USE "http://localhost:3000/apiV1/shutdown" TO SHUT IT DOWN!')
+  startNet()
+  process.exit(0)
+})
+
+app.get('/apiV1/configChange', function (req, res) {
+  console.log('Changing SelfButt config.')
+})
+
+app.listen(3000, function () {
+  console.log('SelfButt WebUI listening on port 3000!')
+})
