@@ -26,7 +26,7 @@ To-Do
 	- [X] Song Update Logging
 	- [X] Manual Song Updates
 	- [ ] Song Search
-- [X] Google Searchs
+- [X] Google Search
 - [X] Chat Logging
 	- [X] Disable Chat Logging
 - [ ] Custom Command Support
