@@ -17,7 +17,7 @@
 
 <!--Header-part-->
 <div id="header">
-  <img src="../img/logo.gif" width="150px" height="100px" style="margin: 0 auto;"/>
+  <h3 style="padding-top: 15px; padding-left: 50px; color: white">SelfButt</h3> 
 </div>
 <!--close-Header-part--> 
 
@@ -30,7 +30,7 @@
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
   <ul>
     <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-    <li> <a href="prettycolors.html"><i class="icon icon-signal"></i> <span>Pretty Colors (Seziure Inducing)</span></a> </li>
+    <li> <a href="graphs.html"><i class="icon icon-signal"></i> <span>Graphs</span></a> </li>
   </ul>
 </div>
 <!--sidebar-menu-->
@@ -44,11 +44,11 @@
 <!--End-breadcrumbs-->  
 
 <!--Action boxes-->
-  <div class="container-fluid">
+  <div class="container-fluid" >
     <div class="quick-actions_homepage">
-      <ul class="quick-actions">
-        <li class="bg_lr span5"> <a href="http://localhost:3000/apiV1/shutdown"> <i class="icon-fire"></i> Shutdown</a></li>
-        <li class="bg_lg span5"> <a href="http://localhost:3000/apiV1/reboot"> <i class="icon-refresh"></i> Restart</a> </li>
+      <ul class="site-stats">
+        <li class="bg_lr"> <a href="http://localhost:3000/apiV1/shutdown" style="color: white"> <i class="icon-fire"></i> Shutdown</a></li>
+        <li class="bg_lg"> <a href="http://localhost:3000/apiV1/reboot" style="color: white"> <i class="icon-refresh"></i> Restart</a> </li>
       </ul>
     </div>
 <!--End-Action boxes--> 
@@ -59,14 +59,14 @@
         <div class="widget-title bg_lg"><span class="icon"><i class="icon-signal"></i></span>
           <h5>Bot Analytics</h5>
         </div>
-        <div class="widget-content" >
+        <div class="widget-content">
           <div class="row-fluid">
             <div class="span12">
               <ul class="site-stats">	
-                <li class="bg_lh"><i class="icon-user"></i> <strong>2540</strong> <small>Users</small></li>
-                <li class="bg_lh"><i class="icon-plus"></i> <strong>120</strong> <small>Messages </small></li>
-                <li class="bg_lh"><i class="icon-globe"></i> <strong>656</strong> <small>Guilds</small></li>
-                <li class="bg_lh"><i class="icon-tag"></i> <strong>9540</strong> <small>Channels</small></li>
+                <li class="bg_lh"><i class="icon-user"></i> <strong id="numberUsers">AAAAA</strong> <small>Users</small></li>
+                <li class="bg_lh"><i class="icon-music"></i> <strong id="lastsong">AAAAA</strong> <small>Current Song </small></li>
+                <li class="bg_lh"><i class="icon-globe"></i> <strong id="numberGuilds">AAAAA</strong> <small>Guilds</small></li>
+                <li class="bg_lh"><i class="icon-tag"></i> <strong id="numberChannels">OH GOD IT BURNS</strong> <small>Channels</small></li>
               </ul>
             </div>
 	      <div class="span11" style="float: none;margin: 0 auto;">
@@ -127,10 +127,30 @@
   function loadLogs (){
     $('#chat-messages').load('../logs.txt');
   }
+  function loadSongs (){
+    $('#lastsong').load('../lastsong.txt');
+  }
+  function loadUsers (){
+    $('#numberUsers').load('../stats/numberOfUsers.txt');
+  }
+  function loadGuilds (){
+    $('#numberGuilds').load('../stats/numberOfGuilds.txt');
+  }
+  function loadChannels (){
+    $('#numberChannels').load('../stats/numberOfChannels.txt');
+  }
 setInterval(function () {
 	loadLogs()
+	loadSongs()
+	loadUsers()
+	loadGuilds()
+	loadChannels()
 }, 5000)
 loadLogs()
+loadSongs()
+loadUsers()
+loadGuilds()
+loadChannels()
 </script>
 
 

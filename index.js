@@ -149,7 +149,7 @@ bot.on('messageCreate', (msg) => {
 })
 
 setInterval(function () {
-  fs.readFile('lastsong.txt', 'utf8', function (err, lastSong) {
+  fs.readFile('./semi-public/lastsong.txt', 'utf8', function (err, lastSong) {
     if (err) throw err
     fs.readFile(location, 'utf8', function (err, data) {
       if (err) throw err
@@ -165,11 +165,18 @@ setInterval(function () {
   })
 }, 15000)
 
+setInterval(function () {
+  statSaving()
+}, 5000)
+
 function writeSongTxt (song) {
-  fs.writeFile('lastsong.txt', song, function (err) {
-    if (err) {
-      return webLogger(err)
-    }
+  mkdirp('./semi-public/', function (err) {
+    if (err) throw err
+    fs.writeFile('./semi-public/lastsong.txt', song, function (err) {
+      if (err) {
+        return webLogger(err)
+      }
+    })
   })
 }
 
@@ -196,7 +203,6 @@ function logItPls (whathappened) {
     }
   })
 }
-
 function startNet () {
   var spawn = require('child_process').spawn
   var child = spawn('node', ['index.js'], {
@@ -206,9 +212,33 @@ function startNet () {
   child.unref()
 }
 
+function statSaving () {
+  mkdirp('./semi-public/stats/', function (err) {
+    if (err) throw err
+    var numberOfGuilds = bot.guilds.size
+    var numberOfUsers = bot.users.size
+    var numberOfChannels = Object.keys(bot.channelGuildMap).length
+    fs.writeFile('./semi-public/stats/numberOfGuilds.txt', numberOfGuilds, function (err) {
+      if (err) {
+        return webLogger(err)
+      }
+    })
+    fs.writeFile('./semi-public/stats/numberOfUsers.txt', numberOfUsers, function (err) {
+      if (err) {
+        return webLogger(err)
+      }
+    })
+    fs.writeFile('./semi-public/stats/numberOfChannels.txt', numberOfChannels, function (err) {
+      if (err) {
+        return webLogger(err)
+      }
+    })
+  })
+}
+
 bot.connect()
 process.title = 'SelfButt'
-if (fs.existsSync('lastsong.txt')) {
+if (fs.existsSync('./semi-public/lastsong.txt')) {
   checkForUpdate()
   writeLogsTxt('')
 } else {
