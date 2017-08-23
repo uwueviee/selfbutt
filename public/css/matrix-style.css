@@ -1264,9 +1264,10 @@ form {
 }
 /* Responsive design */
 @media (max-width: 480px) {
-#header h1 {
+#header h3 {
 	top: 10px; left:5px;
 	margin: 3px auto;
+	padding-left: 30px;
 }
 #user-nav {
 	position: relative;
