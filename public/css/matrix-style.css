@@ -740,6 +740,7 @@ hr{ border-top-color:#dadada;}
 	padding: 15px;
 }
 .chat-messages {
+	white-space: pre-line;
 	height: 420px;
 	overflow: auto;
 	position: relative;

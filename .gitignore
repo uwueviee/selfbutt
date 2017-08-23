@@ -58,6 +58,7 @@ typings/
 .env
 
 # Remove selfbutt config and lastsong file
+semi-public/
 config.json
 lastsong.txt
 stats.txt
