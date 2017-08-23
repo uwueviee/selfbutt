@@ -23,8 +23,9 @@ To-Do
 ------
 - [ ] UI for controlling the bot
   - [X] Shutdown / Reboot
-  - [ ] Stats
+  - [X] Stats
   - [X] Logs
+  - [ ] Config
 - [X] Song Updates
 	- [X] Song Update Logging
 	- [X] Manual Song Updates
