@@ -15,13 +15,14 @@
 
 Current Features
 ------	
+* UI Control Panel
 * Automatic Song Updating with Logging
 * Google Searching
 * Chat Logging
 
 To-Do
 ------
-- [ ] UI for controlling the bot
+- [X] UI for controlling the bot
   - [X] Shutdown / Reboot
   - [X] Stats
   - [X] Logs
