@@ -1,15 +1,16 @@
 {
   "name": "SelfButt",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A Discord self bot.",
   "main": "index.js",
   "scripts": {
     "test": "standard",
-    "start":"node index.js"
+    "start": "node index.js"
   },
   "author": "Noculi",
   "license": "GPLv3",
   "dependencies": {
+    "discogs-client": "^0.5.1",
     "eris": "github:abalabahaha/eris#dev",
     "google": "^2.1.0",
     "mkdirp": "^0.5.1",

@@ -5,6 +5,7 @@ const moment = require('moment')
 const mkdirp = require('mkdirp')
 const google = require('google')
 const request = require('request')
+// const Discogs = require('discogs-client')
 const packageJSON = require('./package.json')
 
 // Load Config
@@ -22,7 +23,7 @@ function checkForUpdate () {
     headers: {
       'Accept': 'application/json',
       'Accept-Charset': 'utf-8',
-      'User-Agent': 'selfbutt-noculi'
+      'User-Agent': 'selfbutt-noculi/' + packageJSON.version
     }
   }
   request(options, function (err, res, body) {
@@ -114,6 +115,11 @@ bot.on('messageCreate', (msg) => {
           nextCounter += 1
           if (res.next) res.next()
         }
+      })
+    } else if (msg.content === prefix + 'searchSong') {
+      console.log('e')
+      fs.readFile(location, 'utf8', function (err, data) {
+        if (err) throw err
       })
     }
   }

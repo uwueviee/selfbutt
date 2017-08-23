@@ -4,5 +4,6 @@
 	"snipLocation":"ENTER SNIP LOCATION",
 	"ownerID":"ENTER YOUR ID",
 	"logChannel":"ENTER A CHANNEL FOR LOGGING",
-	"chatLogging":"Y"
+	"chatLogging":"Y",
+	"discogsToken":"ENTER DISCOGS PERSONAL ACCESS TOKEN"
 }
