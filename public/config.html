@@ -17,7 +17,8 @@
 
 <!--Header-part-->
 <div id="header">
-  <h3 style="padding-top: 15px; padding-left: 50px; color: white">SelfButt</h3> 
+  <h3 style="padding-top: 5px; padding-left: 50px; color: white">SelfButt</h3> 
+  <h4 id="selfbuttVersion" style="top: -15px; position: relative; padding-left: 80px; color: white">0.0.0</h4>
 </div>
 <!--close-Header-part--> 
 
@@ -117,6 +118,11 @@
                 </tr>
               </thead>
               <tbody>
+                <tr class="about">
+                  <td>about</td>
+                  <td>index.js</td>
+                  <td>Yes</td>
+                </tr>
                 <tr class="ping">
                   <td>ping</td>
                   <td>index.js</td>
@@ -162,7 +168,12 @@
 
 <script>
 var jsonData = {}
-$.getJSON('./config.json', function(data) {
+$.getJSON('http://localhost:3000/apiV1/info', function(data) {
+  jsonData = data
+  $('#selfbuttVersion').text(jsonData.version)
+})
+var jsonData = {}
+$.getJSON('http://localhost:3000/apiV1/config', function(data) {
   jsonData = data
   var token = jsonData.token
   var prefix = jsonData.prefix

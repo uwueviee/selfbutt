@@ -58,5 +58,6 @@ typings/
 .env
 
 # Remove any private files made by SelfButt
-semi-public/
+config.json
+logs.txt
 lastsong.txt

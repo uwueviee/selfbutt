@@ -42,6 +42,6 @@ To-Do
 Starting it up
 ------
 1. Do `npm install` to get all required modules
-2. Copy and rename example-config.json to config.json and move it into the `semi-public` folder
+2. Copy and rename example-config.json to config.json
 3. Fill out the elements in config.json
 4. Do `npm start` and go to https://localhost:3000
