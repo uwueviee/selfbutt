@@ -31,15 +31,11 @@ To-Do
 	- [X] Song Update Logging
 	- [X] Manual Song Updates
 	- [ ] Song Search
-- [X] Google Search
-- [X] Chat Logging
-	- [X] Disable Chat Logging
 - [ ] Custom Command Support
-- [X] Update Checker
 
 Starting it up
 ------
 1. Do `npm install` to get all required modules
 2. Copy and rename example-config.json to config.json and move it into the `semi-public` folder
 3. Fill out the elements in config.json
-4. Do `npm start`
+4. Do `npm start` and go to https://localhost:3000
