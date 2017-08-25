@@ -285,7 +285,7 @@ app.get('/apiV1/configChange', function (req, res) {
 })
 
 app.get('/apiV1/info', function (req, res) {
-  webLogger('SelfButt ' + packageJSON.version)
+  res.send('SelfButt ' + packageJSON.version)
 })
 
 app.listen(3000, function () {
