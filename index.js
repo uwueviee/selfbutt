@@ -284,7 +284,7 @@ app.get('/apiV1/configChange', function (req, res) {
   webLogger('Changing SelfButt config.')
 })
 
-app.get('/apiV1/information', function (req, res) {
+app.get('/apiV1/info', function (req, res) {
   webLogger('SelfButt ' + packageJSON.version)
 })
 
