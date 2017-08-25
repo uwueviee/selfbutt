@@ -1,7 +1,7 @@
 <div align="center">
   <h1 align="center">SelfButt</h1>
 	<p align="center">
-		<strong>A Discord SelfBot made with Eris and following the Javascript Standard.t</strong>
+		<strong>A Discord SelfBot made with Eris and following the Javascript Standard.</strong>
 	</p>
 	<br/>
 	<br/>
