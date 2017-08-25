@@ -54,7 +54,7 @@ bot.on('messageCreate', (msg) => {
           },
           color: 0x008000,
           footer: {
-            text: 'SelfButt 0.1 by Noculi'
+            text: 'SelfButt ' + packageJSON.version + ' by Noculi'
           }
         }
       })
@@ -75,7 +75,7 @@ bot.on('messageCreate', (msg) => {
             },
             color: 0x008000,
             footer: {
-              text: 'SelfButt 0.1 by Noculi'
+              text: 'SelfButt ' + packageJSON.version + ' by Noculi'
             }
           }
         })
@@ -104,7 +104,7 @@ bot.on('messageCreate', (msg) => {
               },
               color: 0x008000,
               footer: {
-                text: 'SelfButt 0.1 by Noculi'
+                text: 'SelfButt ' + packageJSON.version + ' by Noculi'
               }
             }
           })
@@ -120,6 +120,21 @@ bot.on('messageCreate', (msg) => {
     } else if (msg.content === prefix + 'searchSong') {
       fs.readFile(location, 'utf8', function (err, data) {
         if (err) throw err
+      })
+    } else if (msg.content === prefix + 'about') {
+      bot.createMessage(msg.channel.id, {
+        embed: {
+          title: 'Hey!',
+          description: "I'm a simple SelfBot made by Noculi! You can find more infomation about me over at https://noculi.github.io/selfbutt/",
+          author: {
+            name: msg.author.username,
+            icon_url: msg.author.avatarURL
+          },
+          color: 0x008000,
+          footer: {
+            text: 'SelfButt ' + packageJSON.version + ' by Noculi'
+          }
+        }
       })
     }
   }
@@ -198,7 +213,7 @@ function logItPls (whathappened) {
       description: whathappened,
       color: 0x008000,
       footer: {
-        text: 'SelfButt 0.1 by Noculi'
+        text: 'SelfButt ' + packageJSON.version + ' by Noculi'
       }
     }
   })
@@ -267,6 +282,10 @@ app.get('/apiV1/reboot', function (req, res) {
 
 app.get('/apiV1/configChange', function (req, res) {
   webLogger('Changing SelfButt config.')
+})
+
+app.get('/apiV1/information', function (req, res) {
+  webLogger('SelfButt ' + packageJSON.version)
 })
 
 app.listen(3000, function () {
