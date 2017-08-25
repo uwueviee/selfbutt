@@ -11,7 +11,7 @@ const app = express()
 const packageJSON = require('./package.json')
 
 // Load Config
-var config = require('./semi-public/config.json')
+var config = require('./config.json')
 
 var bot = new Eris(config.token)
 var ownerID = config.ownerID
@@ -164,7 +164,7 @@ bot.on('messageCreate', (msg) => {
 })
 
 setInterval(function () {
-  fs.readFile('./semi-public/lastsong.txt', 'utf8', function (err, lastSong) {
+  fs.readFile('./lastsong.txt', 'utf8', function (err, lastSong) {
     if (err) throw err
     fs.readFile(location, 'utf8', function (err, data) {
       if (err) throw err
@@ -180,29 +180,19 @@ setInterval(function () {
   })
 }, 15000)
 
-setInterval(function () {
-  statSaving()
-}, 5000)
-
 function writeSongTxt (song) {
-  mkdirp('./semi-public/', function (err) {
-    if (err) throw err
-    fs.writeFile('./semi-public/lastsong.txt', song, function (err) {
-      if (err) {
-        return webLogger(err)
-      }
-    })
+  fs.writeFile('./lastsong.txt', song, function (err) {
+    if (err) {
+      return webLogger(err)
+    }
   })
 }
 
 function writeLogsTxt (data) {
-  mkdirp('./semi-public/', function (err) {
-    if (err) throw err
-    fs.writeFile('./semi-public/logs.txt', data, function (err) {
-      if (err) {
-        return webLogger(err)
-      }
-    })
+  fs.writeFile('./logs.txt', data, function (err) {
+    if (err) {
+      return webLogger(err)
+    }
   })
 }
 
@@ -227,45 +217,15 @@ function startNet () {
   child.unref()
 }
 
-function statSaving () {
-  mkdirp('./semi-public/stats/', function (err) {
+function webLogger (data) {
+  var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
+  var finalMessage = time + '] ' + data + os.EOL
+  fs.appendFile('./logs.txt', finalMessage, function (err) {
     if (err) throw err
-    var numberOfGuilds = bot.guilds.size
-    var numberOfUsers = bot.users.size
-    var numberOfChannels = Object.keys(bot.channelGuildMap).length
-    fs.writeFile('./semi-public/stats/numberOfGuilds.txt', numberOfGuilds, function (err) {
-      if (err) {
-        return webLogger(err)
-      }
-    })
-    fs.writeFile('./semi-public/stats/numberOfUsers.txt', numberOfUsers, function (err) {
-      if (err) {
-        return webLogger(err)
-      }
-    })
-    fs.writeFile('./semi-public/stats/numberOfChannels.txt', numberOfChannels, function (err) {
-      if (err) {
-        return webLogger(err)
-      }
-    })
   })
 }
 
-bot.connect()
-console.log('You can manage your bot over at "http://localhost:3000"')
-process.title = 'SelfButt'
-if (fs.existsSync('./semi-public/lastsong.txt')) {
-  checkForUpdate()
-  writeLogsTxt('')
-} else {
-  logItPls("Looks like you're new to SelfButt! You can take a look on the wiki for commands!")
-  writeSongTxt('SelfButt First Boot')
-  writeLogsTxt('')
-  checkForUpdate()
-}
-
 app.use(express.static('public'))
-app.use(express.static('semi-public'))
 
 app.get('/apiV1/shutdown', function (req, res) {
   webLogger('Shutting down SelfButt.')
@@ -274,7 +234,6 @@ app.get('/apiV1/shutdown', function (req, res) {
 })
 
 app.get('/apiV1/reboot', function (req, res) {
-  webLogger('Rebooting SelfButt. NOTE: DUE TO A BUG, YOU WILL NOT BE ABLE TO SEE ANY OF THE NEW LOGS HERE OR BE ABLE TO END IT HERE! USE "http://localhost:3000/apiV1/shutdown" TO SHUT IT DOWN!')
   res.send('Rebooting. <a href="http://localhost:3000/">Click here to go back to the dashboard</a>')
   startNet()
   process.exit(0)
@@ -284,18 +243,41 @@ app.get('/apiV1/configChange', function (req, res) {
   webLogger('Changing SelfButt config.')
 })
 
+app.get('/apiV1/config', function (req, res) {
+  fs.readFile('./config.json', 'utf8', function (err, data) {
+    if (err) throw err
+    res.send(data)
+  })
+})
+
+app.get('/apiV1/logs', function (req, res) {
+  fs.readFile('./logs.txt', 'utf8', function (err, data) {
+    if (err) throw err
+    res.send(data)
+  })
+})
+
 app.get('/apiV1/info', function (req, res) {
-  res.send('SelfButt ' + packageJSON.version)
+  fs.readFile(location, 'utf8', function (err, data) {
+    if (err) throw err
+    var finalRes = '{' + '"version":"' + packageJSON.version + '",' + '"currentSong":"' + data + '",' + '"totalGuilds":"' + bot.guilds.size + '",' + '"totalChannels":"' + Object.keys(bot.channelGuildMap).length + '",' + '"onlineUsers":"' + bot.users.size + '"}'
+    res.send(finalRes)
+  })
 })
 
 app.listen(3000, function () {
-  webLogger('SelfButt WebUI listening on port 3000!')
+  webLogger('You can manage your bot over at "http://localhost:3000"')
 })
 
-function webLogger (data) {
-  var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
-  var finalMessage = time + '] ' + data + os.EOL
-  fs.appendFile('./semi-public/logs.txt', finalMessage, function (err) {
-    if (err) throw err
-  })
+process.title = 'SelfButt'
+if (fs.existsSync('./lastsong.txt')) {
+  checkForUpdate()
+  writeLogsTxt('')
+} else {
+  logItPls("Looks like you're new to SelfButt! You can take a look on the wiki for commands!")
+  writeSongTxt('SelfButt First Boot')
+  writeLogsTxt('')
+  checkForUpdate()
 }
+
+bot.connect()

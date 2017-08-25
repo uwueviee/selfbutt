@@ -19,7 +19,8 @@
 
 <!--Header-part-->
 <div id="header">
-  <h3 style="padding-top: 15px; padding-left: 50px; color: white">SelfButt</h3> 
+  <h3 style="padding-top: 5px; padding-left: 50px; color: white">SelfButt</h3> 
+  <h4 id="selfbuttVersion" style="top: -15px; position: relative; padding-left: 80px; color: white">0.0.0</h4>
 </div>
 <!--close-Header-part--> 
 
@@ -125,27 +126,42 @@ Plotly.newPlot('graphEE', users)
 Plotly.newPlot('graphEE2', guilds)
 Plotly.newPlot('graphEE3', channels)
 
+  var jsonData = {}
+  function loadVersion () {
+    $.getJSON('http://localhost:3000/apiV1/info', function(data) {
+      jsonData = data
+      $('#selfbuttVersion').text(jsonData.version)
+    })
+  }
   function loadSongs () {
-    $('#lastsong').load('../lastsong.txt', function(data) {
+    $.getJSON('http://localhost:3000/apiV1/info', function(data) {
+      jsonData = data
+      $('#lastsong').text(jsonData.currentSong)
     })
   }
   function loadUsers () {
-    $('#numberUsers').load('../stats/numberOfUsers.txt', function(data) {
-      trace1.y.push(data)
+    $.getJSON('http://localhost:3000/apiV1/info', function(data) {
+      jsonData = data
+      $('#numberUsers').text(jsonData.onlineUsers)
+      trace1.y.push(jsonData.onlineUsers)
       trace1.x.push(moment().format('h:mm:ss a'))
       Plotly.newPlot('graphEE', users)
     })
   }
   function loadGuilds () {
-    $('#numberGuilds').load('../stats/numberOfGuilds.txt', function(data) {
-      trace2.y.push(data)
+    $.getJSON('http://localhost:3000/apiV1/info', function(data) {
+      jsonData = data
+      $('#numberGuilds').text(jsonData.totalGuilds)
+      trace2.y.push(jsonData.totalGuilds)
       trace2.x.push(moment().format('h:mm:ss a'))
       Plotly.newPlot('graphEE2', guilds)
     })
   }
   function loadChannels () {
-    $('#numberChannels').load('../stats/numberOfChannels.txt', function(data) {
-      trace3.y.push(data)
+    $.getJSON('http://localhost:3000/apiV1/info', function(data) {
+      jsonData = data
+      $('#numberChannels').text(jsonData.totalChannels)
+      trace3.y.push(jsonData.totalChannels)
       trace3.x.push(moment().format('h:mm:ss a'))
       Plotly.newPlot('graphEE3', channels)
     })
@@ -160,6 +176,7 @@ Plotly.newPlot('graphEE3', channels)
   loadUsers()
   loadGuilds()
   loadChannels()
+  loadVersion()
 </script> 
 <!--Turning-series-chart-js-->
 <script src="js/matrix.dashboard.js"></script>
