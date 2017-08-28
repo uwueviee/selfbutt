@@ -1,5 +1,6 @@
 {
 	"token":"ENTER TOKEN",
+	"port":"3000",
 	"prefix":"sb.",
 	"snipLocation":"ENTER SNIP LOCATION",
 	"ownerID":"ENTER YOUR ID",
