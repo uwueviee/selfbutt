@@ -234,7 +234,7 @@ app.get('/apiV1/shutdown', function (req, res) {
 })
 
 app.get('/apiV1/reboot', function (req, res) {
-  res.send('Rebooting. <a href="http://localhost:3000/">Click here to go back to the dashboard</a>')
+  res.send('Rebooting. <a href="http://localhost:' + config.port + '/">Click here to go back to the dashboard</a>')
   startNet()
   process.exit(0)
 })
@@ -265,8 +265,8 @@ app.get('/apiV1/info', function (req, res) {
   })
 })
 
-app.listen(3000, function () {
-  webLogger('You can manage your bot over at "http://localhost:3000"')
+app.listen(config.port, function () {
+  webLogger('You can manage your bot over at "http://localhost:' + config.port + '"')
 })
 
 process.title = 'SelfButt'
