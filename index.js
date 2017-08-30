@@ -11,6 +11,7 @@ const pathModule = require('path')
 const packageJSON = require('./package.json')
 
 // Spoopy
+var commands = []
 
 function LoadModules (path) {
   fs.lstat(path, function (err, stat) {
@@ -27,6 +28,10 @@ function LoadModules (path) {
         var l = files.length
         for (var i = 0; i < l; i++) {
           f = pathModule.join(path, files[i])
+          var arrayPls1 = f.replace('.js', '')
+          var arrayPls2 = arrayPls1.replace(pathModule.join(__dirname, 'commands'), '')
+          var arrayPls3 = arrayPls2.replace(/\\/g, '')
+          commands.push(' ' + arrayPls3)
           LoadModules(f)
         }
       })
@@ -76,18 +81,24 @@ function checkForUpdate () {
 bot.on('messageCreate', (msg) => {
   if (msg.author.id === ownerID) {
     if (msg.content.startsWith(prefix)) {
-      var watCom = prefix
-      if (msg.content.length === watCom.length) {
-        return
-      }
-      var commandFound = msg.content.substring(watCom.length)
-      var actualCommand = commandFound.split(' ')
-      var preArgCommand = prefix + actualCommand[0]
-      var args = msg.content.substring(preArgCommand.length + 1)
-      try {
-        moduleHolder[actualCommand[0]](bot, msg, args)
-      } catch (err) {
-        webLogger(err)
+      if (msg.content === prefix + 'commands') {
+        bot.createMessage(msg.channel.id, 'Here are all the commands that can be used')
+        bot.createMessage(msg.channel.id, '`' + commands + '`')
+        bot.createMessage(msg.channel.id, 'You can use these commands by doing `' + prefix + '<command> <args>`')
+      } else {
+        var watCom = prefix
+        if (msg.content.length === watCom.length) {
+          return
+        }
+        var commandFound = msg.content.substring(watCom.length)
+        var actualCommand = commandFound.split(' ')
+        var preArgCommand = prefix + actualCommand[0]
+        var args = msg.content.substring(preArgCommand.length + 1)
+        try {
+          moduleHolder[actualCommand[0]](bot, msg, args)
+        } catch (err) {
+          webLogger(err)
+        }
       }
     }
   }
