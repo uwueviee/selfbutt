@@ -7,8 +7,35 @@ const google = require('google')
 const request = require('request')
 const express = require('express')
 const app = express()
+const pathModule = require('path')
 // const Discogs = require('discogs-client')
 const packageJSON = require('./package.json')
+
+// Spoopy
+
+function LoadModules (path) {
+  fs.lstat(path, function (err, stat) {
+    if (stat.isDirectory()) {
+      // we have a directory: do a tree walk
+      fs.readdir(path, function (err, files) {
+        var f = files.length
+        var l = files.length
+        for (var i = 0; i < l; i++) {
+          f = pathModule.join(path, files[i])
+          LoadModules(f)
+        }
+      })
+    } else {
+      // we have a file: load it
+      require(path)(moduleHolder)
+    }
+  })
+}
+
+var DIR = pathModule.join(__dirname, 'commands')
+LoadModules(DIR)
+var moduleHolder = {}
+exports.moduleHolder = moduleHolder
 
 // Load Config
 var config = require('./config.json')
@@ -205,22 +232,51 @@ bot.on('messageCreate', (msg) => {
 })
 
 bot.on('messageCreate', (msg) => {
+  if (msg.author.id === ownerID) {
+    if (msg.content.startsWith(prefix + 'testing.')) {
+      var watCom = prefix + 'testing.'
+      if (msg.content.length === watCom.length) {
+        logItPls('Enter command')
+        return
+      }
+      var commandFound = msg.content.substring(watCom.length)
+      console.log(commandFound)
+      var req
+      var res
+      try {
+        moduleHolder[commandFound](req, res)
+      } catch (err) {
+        logItPls('Issue with command')
+      }
+    }
+  }
+})
+
+bot.on('messageCreate', (msg) => {
   if (config.chatLogging === 'Y') {
     var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
     var finalMessage = time + ']' + ' [' + msg.author.username + '#' + msg.author.discriminator + '] ' + msg.content + os.EOL
     var finalPath = './logs/groups/' + msg.channel.id + '.txt'
     if (!msg.channel.guild) {
       mkdirp('./logs/groups/', function (err) {
-        if (err) throw err
+        if (err) {
+          return webLogger(err)
+        }
         fs.appendFile(finalPath, finalMessage, function (err) {
-          if (err) throw err
+          if (err) {
+            return webLogger(err)
+          }
         })
       })
     } else {
       mkdirp('./logs/' + '/' + msg.channel.guild.name + '/', function (err) {
-        if (err) throw err
+        if (err) {
+          return webLogger(err)
+        }
         fs.appendFile(finalPath, finalMessage, function (err) {
-          if (err) throw err
+          if (err) {
+            return webLogger(err)
+          }
         })
       })
     }
@@ -229,9 +285,13 @@ bot.on('messageCreate', (msg) => {
 
 setInterval(function () {
   fs.readFile('./lastsong.txt', 'utf8', function (err, lastSong) {
-    if (err) throw err
+    if (err) {
+      return webLogger(err)
+    }
     fs.readFile(location, 'utf8', function (err, data) {
-      if (err) throw err
+      if (err) {
+        return webLogger(err)
+      }
       if (lastSong === data) {
         webLogger('Song was already ' + data + '. Skipping change.')
       } else {
@@ -285,7 +345,9 @@ function webLogger (data) {
   var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
   var finalMessage = time + '] ' + data + os.EOL
   fs.appendFile('./logs.txt', finalMessage, function (err) {
-    if (err) throw err
+    if (err) {
+      return webLogger(err)
+    }
   })
 }
 
