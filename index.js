@@ -28,10 +28,11 @@ function LoadModules (path) {
         var l = files.length
         for (var i = 0; i < l; i++) {
           f = pathModule.join(path, files[i])
-          var arrayPls1 = f.replace('.js', '')
-          var arrayPls2 = arrayPls1.replace(pathModule.join(__dirname, 'commands'), '')
-          var arrayPls3 = arrayPls2.replace(/\\/g, '')
-          commands.push(' ' + arrayPls3)
+          var arrayPls = f.replace('.js', '')
+          var arrayPls = arrayPls.replace(pathModule.join(__dirname, 'commands'), '')
+          var arrayPls = arrayPls.replace(/\\/g, '')
+          var arrayPls = arrayPls.replace('/', '')
+          commands.push(' ' + arrayPls)
           LoadModules(f)
         }
       })
@@ -184,6 +185,7 @@ function logItPls (whathappened) {
     }
   })
 }
+
 function startNet () {
   var spawn = require('child_process').spawn
   var child = spawn('node', ['index.js'], {
@@ -194,16 +196,6 @@ function startNet () {
 }
 
 function webLogger (data) {
-  var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
-  var finalMessage = time + '] ' + data + os.EOL
-  fs.appendFile('./logs.txt', finalMessage, function (err) {
-    if (err) {
-      return webLogger(err)
-    }
-  })
-}
-
-exports.webLogger = function (data) {
   var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
   var finalMessage = time + '] ' + data + os.EOL
   fs.appendFile('./logs.txt', finalMessage, function (err) {
