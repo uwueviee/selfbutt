@@ -25,6 +25,7 @@ Current Features
 * Automatic Song Updating with Logging
 * Google Searching
 * Chat Logging
+* Custom Command Support
 
 To-Do
 ------
@@ -37,7 +38,6 @@ To-Do
 	- [X] Song Update Logging
 	- [X] Manual Song Updates
 	- [ ] Song Search
-- [ ] Custom Command Support
 
 Starting it up
 ------

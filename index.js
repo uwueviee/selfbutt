@@ -245,6 +245,10 @@ app.get('/apiV1/logs', function (req, res) {
   })
 })
 
+app.get('/apiV1/commands', function (req, res) {
+  res.send(commands)
+})
+
 app.get('/apiV1/info', function (req, res) {
   fs.readFile(location, 'utf8', function (err, data) {
     if (err) throw err
