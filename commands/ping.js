@@ -14,10 +14,22 @@ function webLogger (data) {
 }
 
 function handler (bot, msg, args) {
-  bot.createMessage(msg.channel.id, 'lol ' + args + ' ' + packageJSON)
-  webLogger('lol ' + args + ' ' + packageJSON)
+  bot.createMessage(msg.channel.id, {
+    embed: {
+      title: 'Hey!',
+      description: "I'm alive, don't worry!",
+      author: {
+        name: msg.author.username,
+        icon_url: msg.author.avatarURL
+      },
+      color: 0x008000,
+      footer: {
+        text: 'SelfButt ' + packageJSON.version + ' by Noculi'
+      }
+    }
+  })
 }
 
 module.exports = function (moduleHolder) {
-  moduleHolder['lol'] = handler
+  moduleHolder['ping'] = handler
 }
