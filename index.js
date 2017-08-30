@@ -99,7 +99,7 @@ bot.on('messageCreate', (msg) => {
               title: link.title + ' - ' + link.href,
               description: link.description + '\n',
               author: {
-                name: 'Google Search',
+                name: 'Google',
                 icon_url: 'https://s-media-cache-ak0.pinimg.com/736x/66/00/18/6600188f65aa2e4cc2cd29017cb27662.jpg'
               },
               color: 0x008000,
@@ -136,6 +136,70 @@ bot.on('messageCreate', (msg) => {
           }
         }
       })
+    } else if (msg.content === prefix + 'commands') {
+      bot.createMessage(msg.channel.id, {
+        embed: {
+          title: 'Commands',
+          description: 'Use any of these commands with the prefix "' + prefix + '"',
+          author: {
+            name: msg.author.username,
+            icon_url: msg.author.avatarURL
+          },
+          color: 0x008000,
+          fields: [ // Array of field objects
+            {
+              name: 'commands', // Field title
+              value: 'Shows this message.', // Field
+              inline: true // Whether you want multiple fields in same line
+            },
+            {
+              name: 'about', // Field title
+              value: 'Returns infomation about the bot.', // Field
+              inline: true // Whether you want multiple fields in same line
+            },
+            {
+              name: 'ping', // Field title
+              value: 'Used to check if the bot is alive.', // Field
+              inline: true // Whether you want multiple fields in same line
+            },
+            {
+              name: 'loadSong', // Field title
+              value: 'Manually loads from the Snip location.', // Field
+              inline: true // Whether you want multiple fields in same line
+            },
+            {
+              name: 'google <searchterm>', // Field title
+              value: 'Googles a term and returns the first 4 links.', // Field
+              inline: true // Whether you want multiple fields in same line
+            },
+            {
+              name: 'reload', // Field title
+              value: 'Reloads the bot.', // Field
+              inline: true // Whether you want multiple fields in same line
+            }
+          ],
+          footer: {
+            text: 'SelfButt ' + packageJSON.version + ' by Noculi'
+          }
+        }
+      })
+    } else if (msg.content === prefix + 'reload') {
+      bot.createMessage(msg.channel.id, {
+        embed: {
+          title: 'Hey!',
+          description: "I'm reloading, don't worry!",
+          author: {
+            name: msg.author.username,
+            icon_url: msg.author.avatarURL
+          },
+          color: 0x008000,
+          footer: {
+            text: 'SelfButt ' + packageJSON.version + ' by Noculi'
+          }
+        }
+      })
+      startNet()
+      process.exit(0)
     }
   }
 })
@@ -274,7 +338,7 @@ if (fs.existsSync('./lastsong.txt')) {
   checkForUpdate()
   writeLogsTxt('')
 } else {
-  logItPls("Looks like you're new to SelfButt! You can take a look on the wiki for commands!")
+  logItPls("Looks like you're new to SelfButt! You can take a look on the wiki for commands or use sb.commands!")
   writeSongTxt('SelfButt First Boot')
   writeLogsTxt('')
   checkForUpdate()
