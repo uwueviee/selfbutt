@@ -241,10 +241,11 @@ bot.on('messageCreate', (msg) => {
       }
       var commandFound = msg.content.substring(watCom.length)
       console.log(commandFound)
-      var req
-      var res
+      var actualCommand = commandFound.split(' ')
+      var preArgCommand = prefix + 'testing.' + actualCommand[0]
+      var args = msg.content.substring(preArgCommand.length + 1)
       try {
-        moduleHolder[commandFound](req, res)
+        moduleHolder[actualCommand[0]](bot, msg, args)
       } catch (err) {
         logItPls('Issue with command')
       }
