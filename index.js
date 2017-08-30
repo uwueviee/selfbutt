@@ -3,12 +3,49 @@ const fs = require('fs')
 const os = require('os')
 const moment = require('moment')
 const mkdirp = require('mkdirp')
-const google = require('google')
 const request = require('request')
 const express = require('express')
 const app = express()
+const pathModule = require('path')
 // const Discogs = require('discogs-client')
 const packageJSON = require('./package.json')
+
+// Spoopy
+var commands = []
+
+function LoadModules (path) {
+  fs.lstat(path, function (err, stat) {
+    if (err) {
+      return webLogger(err)
+    }
+    if (stat.isDirectory()) {
+      // we have a directory: do a tree walk
+      fs.readdir(path, function (err, files) {
+        if (err) {
+          return webLogger(err)
+        }
+        var f = files.length
+        var l = files.length
+        for (var i = 0; i < l; i++) {
+          f = pathModule.join(path, files[i])
+          var arrayPls1 = f.replace('.js', '')
+          var arrayPls2 = arrayPls1.replace(pathModule.join(__dirname, 'commands'), '')
+          var arrayPls3 = arrayPls2.replace(/\\/g, '')
+          commands.push(' ' + arrayPls3)
+          LoadModules(f)
+        }
+      })
+    } else {
+      // we have a file: load it
+      require(path)(moduleHolder)
+    }
+  })
+}
+
+var DIR = pathModule.join(__dirname, 'commands')
+LoadModules(DIR)
+var moduleHolder = {}
+exports.moduleHolder = moduleHolder
 
 // Load Config
 var config = require('./config.json')
@@ -43,163 +80,26 @@ function checkForUpdate () {
 
 bot.on('messageCreate', (msg) => {
   if (msg.author.id === ownerID) {
-    if (msg.content === prefix + 'ping') {
-      bot.createMessage(msg.channel.id, {
-        embed: {
-          title: 'Hey!',
-          description: "I'm alive, don't worry!",
-          author: {
-            name: msg.author.username,
-            icon_url: msg.author.avatarURL
-          },
-          color: 0x008000,
-          footer: {
-            text: 'SelfButt ' + packageJSON.version + ' by Noculi'
-          }
+    if (msg.content.startsWith(prefix)) {
+      if (msg.content === prefix + 'commands') {
+        bot.createMessage(msg.channel.id, 'Here are all the commands that can be used')
+        bot.createMessage(msg.channel.id, '`' + commands + '`')
+        bot.createMessage(msg.channel.id, 'You can use these commands by doing `' + prefix + '<command> <args>`')
+      } else {
+        var watCom = prefix
+        if (msg.content.length === watCom.length) {
+          return
         }
-      })
-    } else if (msg.content === prefix + 'loadSong') {
-      fs.readFile(location, 'utf8', function (err, data) {
-        if (err) throw err
-        webLogger(data)
-        writeSongTxt(data)
-        bot.editStatus({name: '🎶 ' + data, type: 0})
-        logItPls('Song updated to ' + data)
-        bot.createMessage(msg.channel.id, {
-          embed: {
-            title: 'Hey!',
-            description: "I'll go ahead and do that really quickly! (Song name is '" + data + "')",
-            author: {
-              name: msg.author.username,
-              icon_url: msg.author.avatarURL
-            },
-            color: 0x008000,
-            footer: {
-              text: 'SelfButt ' + packageJSON.version + ' by Noculi'
-            }
-          }
-        })
-      })
-    } else if (msg.content.startsWith(prefix + 'google')) {
-      var searchCommand = prefix + 'google'
-      if (msg.content.length <= searchCommand.length + 1) {
-        bot.createMessage(msg.channel.id, 'Please specify a search term.')
-        return
+        var commandFound = msg.content.substring(watCom.length)
+        var actualCommand = commandFound.split(' ')
+        var preArgCommand = prefix + actualCommand[0]
+        var args = msg.content.substring(preArgCommand.length + 1)
+        try {
+          moduleHolder[actualCommand[0]](bot, msg, args)
+        } catch (err) {
+          webLogger(err)
+        }
       }
-      var filename = msg.content.substring(searchCommand.length + 1)
-      google.resultsPerPage = 25
-      var nextCounter = 0
-      google(filename, function (err, res) {
-        if (err) throw err
-        bot.createMessage(msg.channel.id, 'Here are the top 4 results!')
-        for (var i = 0; i < res.links.length; ++i) {
-          var link = res.links[i]
-          bot.createMessage(msg.channel.id, {
-            embed: {
-              title: link.title + ' - ' + link.href,
-              description: link.description + '\n',
-              author: {
-                name: 'Google',
-                icon_url: 'https://s-media-cache-ak0.pinimg.com/736x/66/00/18/6600188f65aa2e4cc2cd29017cb27662.jpg'
-              },
-              color: 0x008000,
-              footer: {
-                text: 'SelfButt ' + packageJSON.version + ' by Noculi'
-              }
-            }
-          })
-          if (i === 3) {
-            return
-          }
-        }
-        if (nextCounter < 4) {
-          nextCounter += 1
-          if (res.next) res.next()
-        }
-      })
-    } else if (msg.content === prefix + 'searchSong') {
-      fs.readFile(location, 'utf8', function (err, data) {
-        if (err) throw err
-      })
-    } else if (msg.content === prefix + 'about') {
-      bot.createMessage(msg.channel.id, {
-        embed: {
-          title: 'Hey!',
-          description: "I'm a simple SelfBot made by Noculi! You can find more infomation about me over at https://noculi.github.io/selfbutt/",
-          author: {
-            name: msg.author.username,
-            icon_url: msg.author.avatarURL
-          },
-          color: 0x008000,
-          footer: {
-            text: 'SelfButt ' + packageJSON.version + ' by Noculi'
-          }
-        }
-      })
-    } else if (msg.content === prefix + 'commands') {
-      bot.createMessage(msg.channel.id, {
-        embed: {
-          title: 'Commands',
-          description: 'Use any of these commands with the prefix "' + prefix + '"',
-          author: {
-            name: msg.author.username,
-            icon_url: msg.author.avatarURL
-          },
-          color: 0x008000,
-          fields: [ // Array of field objects
-            {
-              name: 'commands', // Field title
-              value: 'Shows this message.', // Field
-              inline: true // Whether you want multiple fields in same line
-            },
-            {
-              name: 'about', // Field title
-              value: 'Returns infomation about the bot.', // Field
-              inline: true // Whether you want multiple fields in same line
-            },
-            {
-              name: 'ping', // Field title
-              value: 'Used to check if the bot is alive.', // Field
-              inline: true // Whether you want multiple fields in same line
-            },
-            {
-              name: 'loadSong', // Field title
-              value: 'Manually loads from the Snip location.', // Field
-              inline: true // Whether you want multiple fields in same line
-            },
-            {
-              name: 'google <searchterm>', // Field title
-              value: 'Googles a term and returns the first 4 links.', // Field
-              inline: true // Whether you want multiple fields in same line
-            },
-            {
-              name: 'reload', // Field title
-              value: 'Reloads the bot.', // Field
-              inline: true // Whether you want multiple fields in same line
-            }
-          ],
-          footer: {
-            text: 'SelfButt ' + packageJSON.version + ' by Noculi'
-          }
-        }
-      })
-    } else if (msg.content === prefix + 'reload') {
-      bot.createMessage(msg.channel.id, {
-        embed: {
-          title: 'Hey!',
-          description: "I'm reloading, don't worry!",
-          author: {
-            name: msg.author.username,
-            icon_url: msg.author.avatarURL
-          },
-          color: 0x008000,
-          footer: {
-            text: 'SelfButt ' + packageJSON.version + ' by Noculi'
-          }
-        }
-      })
-      startNet()
-      process.exit(0)
     }
   }
 })
@@ -211,16 +111,24 @@ bot.on('messageCreate', (msg) => {
     var finalPath = './logs/groups/' + msg.channel.id + '.txt'
     if (!msg.channel.guild) {
       mkdirp('./logs/groups/', function (err) {
-        if (err) throw err
+        if (err) {
+          return webLogger(err)
+        }
         fs.appendFile(finalPath, finalMessage, function (err) {
-          if (err) throw err
+          if (err) {
+            return webLogger(err)
+          }
         })
       })
     } else {
       mkdirp('./logs/' + '/' + msg.channel.guild.name + '/', function (err) {
-        if (err) throw err
+        if (err) {
+          return webLogger(err)
+        }
         fs.appendFile(finalPath, finalMessage, function (err) {
-          if (err) throw err
+          if (err) {
+            return webLogger(err)
+          }
         })
       })
     }
@@ -229,9 +137,13 @@ bot.on('messageCreate', (msg) => {
 
 setInterval(function () {
   fs.readFile('./lastsong.txt', 'utf8', function (err, lastSong) {
-    if (err) throw err
+    if (err) {
+      return webLogger(err)
+    }
     fs.readFile(location, 'utf8', function (err, data) {
-      if (err) throw err
+      if (err) {
+        return webLogger(err)
+      }
       if (lastSong === data) {
         webLogger('Song was already ' + data + '. Skipping change.')
       } else {
@@ -285,7 +197,19 @@ function webLogger (data) {
   var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
   var finalMessage = time + '] ' + data + os.EOL
   fs.appendFile('./logs.txt', finalMessage, function (err) {
-    if (err) throw err
+    if (err) {
+      return webLogger(err)
+    }
+  })
+}
+
+exports.webLogger = function (data) {
+  var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
+  var finalMessage = time + '] ' + data + os.EOL
+  fs.appendFile('./logs.txt', finalMessage, function (err) {
+    if (err) {
+      return webLogger(err)
+    }
   })
 }
 
@@ -319,6 +243,10 @@ app.get('/apiV1/logs', function (req, res) {
     if (err) throw err
     res.send(data)
   })
+})
+
+app.get('/apiV1/commands', function (req, res) {
+  res.send(commands)
 })
 
 app.get('/apiV1/info', function (req, res) {
