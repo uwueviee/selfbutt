@@ -29,10 +29,10 @@ function LoadModules (path) {
         for (var i = 0; i < l; i++) {
           f = pathModule.join(path, files[i])
           var arrayPls = f.replace('.js', '')
-          var arrayPls = arrayPls.replace(pathModule.join(__dirname, 'commands'), '')
-          var arrayPls = arrayPls.replace(/\\/g, '')
-          var arrayPls = arrayPls.replace('/', '')
-          commands.push(' ' + arrayPls)
+          var arrayPls1 = arrayPls.replace(pathModule.join(__dirname, 'commands'), '')
+          var arrayPls2 = arrayPls1.replace(/\\/g, '')
+          var arrayPls3 = arrayPls2.replace('/', '')
+          commands.push(' ' + arrayPls3)
           LoadModules(f)
         }
       })
