@@ -2,7 +2,8 @@
 
 ---
 
-Before you start, you will need to realize that selfbots are against Discord's ToS.
+Before you start, you will need to realize that selfbots are against Discord's ToS.  
+You will also need to download [NodeJS](https://nodejs.org/). Make sure you are downloading the current version, not the LTS version.
 
 Now we got that out of the way, let's get to filling our config file!
 
@@ -18,5 +19,8 @@ Let's go over what these values do.
 | prefix | The prefix for all the commands. |
 | ownerID | The Discord ID that the bot will listen for commands sent by that ID. [How to find your ID](/How to find your token/ID) |
 
+When you are finshed filling out all the values open a command prompt / terminal and go to the directory that the selfbot is in.  
+Then you will need to type `npm install` and let it install all the required modules, when that is complete do`npm start` to actually start the selfbot.
 
+When ever you want to start the selfbot, type in `npm start` in the directory.
 
