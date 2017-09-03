@@ -7,8 +7,7 @@ Now we got that out of the way, let's get to filling our config file!
 You will need to copy `example-config.json` to `config.json`, Once that is complete go ahead an open up config.json and you will see 8 values labeled "token", "port", "prefix", "snipLocation", "ownerID", "logChannel", "chatLogging", and finally "discogsToken"
 
 These values allow the bot to function properly, the most important values are "token", "port", "prefix", and "ownerID"  
-Let's go over what these values do.  
-
+Let's go over what these values do.
 
 | value | use case |
 | ---: | :--- |
