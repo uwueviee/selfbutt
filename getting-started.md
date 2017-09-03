@@ -17,7 +17,7 @@ Let's go over what these values do.
 | token | Your user token that Discord uses to authenticate you, used by Selfbutt to login in and check for / send messages. [How to find your token](/how-to-find-your-tokenid.md) |
 | port | The port that Selfbutt uses to host it's admin panel. I would recommend not changing this unless you know how to edit admin panel to use the new port. |
 | prefix | The prefix for all the commands. |
-| ownerID | The Discord ID that the bot will listen for commands sent by that ID. [How to find your ID](/How to find your token/ID) |
+| ownerID | The Discord ID that the bot will listen for commands sent by that ID. [How to find your ID](/how-to-find-your-tokenid.md) |
 
 When you are finshed filling out all the values open a command prompt / terminal and go to the directory that the selfbot is in.  
 Then you will need to type `npm install` and let it install all the required modules, when that is complete do`npm start` to actually start the selfbot.
