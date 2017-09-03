@@ -1,4 +1,4 @@
-# How to find your token/ID
+# How to find your token or ID
 
 ---
 

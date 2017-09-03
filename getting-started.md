@@ -14,7 +14,7 @@ Let's go over what these values do.
 
 | value | use case |
 | ---: | :--- |
-| token | Your user token that Discord uses to authenticate you, used by Selfbutt to login in and check for / send messages. [How to find your token](/How to find your token/ID) |
+| token | Your user token that Discord uses to authenticate you, used by Selfbutt to login in and check for / send messages. [How to find your token](/how-to-find-your-tokenid.md) |
 | port | The port that Selfbutt uses to host it's admin panel. I would recommend not changing this unless you know how to edit admin panel to use the new port. |
 | prefix | The prefix for all the commands. |
 | ownerID | The Discord ID that the bot will listen for commands sent by that ID. [How to find your ID](/How to find your token/ID) |
