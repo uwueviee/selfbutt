@@ -1,5 +1,7 @@
 # Getting Started
 
+---
+
 Before you start, you will need to realize that selfbots are against Discord's ToS.
 
 Now we got that out of the way, let's get to filling our config file!
