@@ -4,8 +4,8 @@ const songInfoJSON = require('../commandDeps/songInfo.json')
 const fs = require('fs')
 const os = require('os')
 const moment = require('moment')
-const imgur = require('imgur-node-api'),
-  path = require('path')
+const imgur = require('imgur-node-api')
+const path = require('path')
 
 function webLogger (data) {
   var time = '[' + moment().format('MMMM Do YYYY, h:mm:ss a')
@@ -24,6 +24,9 @@ var image = songInfoJSON.imageLocation
 
 function handler (bot, msg, args) {
   fs.readFile(location, 'utf8', function (err, data) {
+    if (err) {
+      return webLogger(err)
+    }
     if (data === '') {
       bot.createMessage(msg.channel.id, {
         embed: {
@@ -40,6 +43,9 @@ function handler (bot, msg, args) {
       })
     } else {
       imgur.upload(path.join(image), function (err, ree) {
+        if (err) {
+          return webLogger(err)
+        }
         webLogger(ree.data.link)
         fs.readFile(location, 'utf8', function (err, data) {
           if (err) throw err
