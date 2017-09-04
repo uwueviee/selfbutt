@@ -11,6 +11,7 @@
 * **lol** - Test command, please ignore
 * **ping** - Checks to see if the selfbot is still alive
 * **reload** - Restarts the bot
+* **songInfo **- Shows the title, artist, and cover art for the currently playing song, requires songInfo.json to be filled out
 
 You can use these commands by doing `<yourprefix> <command> <argument>`
 
