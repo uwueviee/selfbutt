@@ -54,7 +54,7 @@ var config = require('./config.json')
 var bot = new Eris(config.token)
 var ownerID = config.ownerID
 var prefix = config.prefix
-var location = config.snipLocation
+var location = config.songInfoLocation
 
 function checkForUpdate () {
   var options = {

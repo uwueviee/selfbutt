@@ -19,7 +19,7 @@ function webLogger (data) {
 
 imgur.setClientID(songInfoJSON.clientID)
 
-var location = config.snipLocation
+var location = config.songInfoLocation
 var image = songInfoJSON.imageLocation
 
 function handler (bot, msg, args) {
