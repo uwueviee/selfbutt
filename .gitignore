@@ -62,3 +62,5 @@ config.json
 logs.txt
 lastsong.txt
 songInfo.json
+
+\.DS_Store
