@@ -15,7 +15,7 @@ function webLogger (data) {
 
 var config = require('../config.json')
 
-var location = config.snipLocation
+var location = config.songInfoLocation
 
 function handler (bot, msg, args) {
   fs.readFile(location, 'utf8', function (err, data) {

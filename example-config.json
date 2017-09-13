@@ -2,7 +2,7 @@
 	"token":"ENTER TOKEN",
 	"port":"3000",
 	"prefix":"sb.",
-	"snipLocation":"ENTER SNIP LOCATION",
+	"songInfoLocation":"ENTER SNIP LOCATION",
 	"ownerID":"ENTER YOUR ID",
 	"logChannel":"ENTER A CHANNEL FOR LOGGING",
 	"chatLogging":"Y",
