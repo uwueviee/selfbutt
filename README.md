@@ -8,10 +8,10 @@
     <a href="https://github.com/feross/standard"><img src="https://cdn.rawgit.com/feross/standard/master/badge.svg"></a>
 	</p>
   <p align="center">
-    <a href="https://circleci.com/gh/Noculi/selfbutt"><img src="https://circleci.com/gh/Noculi/selfbutt/tree/master.svg?style=svg&circle-token=a9d3bb657f2bff6ca4ffdbf125ceaf902f969a1f"></a>
+    <a href="https://circleci.com/gh/Kizzaris/selfbutt"><img src="https://circleci.com/gh/Kizzaris/selfbutt/tree/master.svg?style=svg&circle-token=a9d3bb657f2bff6ca4ffdbf125ceaf902f969a1f"></a>
 	</p>
   <p align="center">
-    <a href='https://gemnasium.com/github.com/Noculi/selfbutt'><img src="https://gemnasium.com/badges/github.com/Noculi/selfbutt.svg" alt="Dependency Status" /></a>
+    <a href='https://gemnasium.com/github.com/Kizzaris/selfbutt'><img src="https://gemnasium.com/badges/github.com/Kizzaris/selfbutt.svg" alt="Dependency Status" /></a>
 	</p>
   <p align="center">
     <a href='https://forthebadge.com/'><img src="http://forthebadge.com/images/badges/fuck-it-ship-it.svg" alt="Fuck it, ship it" /></a>
