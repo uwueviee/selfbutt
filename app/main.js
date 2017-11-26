@@ -170,6 +170,14 @@ function initialize () {
     Menu.setApplicationMenu(createMenu())
     mainWindow = createMainWindow()
 
+    dialog.showMessageBox(mainWindow, {
+      type: 'warning',
+      buttons: ['Okay'],
+      defaultId: 0,
+      title: 'Warning!',
+      message: 'To move Selfbutt into the background, use the minimize button. You will then be able to access the window with the tray icon.'
+    })
+
     // Manage automatic updates
     try {
       require('./lib/auto-update/update')({
