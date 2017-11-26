@@ -1,16 +1,106 @@
 {
   "name": "SelfButt",
-  "version": "0.4.7",
   "description": "A Discord self bot.",
-  "main": "index.js",
+  "version": "0.5.0",
+  "author": {
+    "name": "Alcide Viau",
+    "email": "alcide.viau@gmail.com"
+  },
+  "license": "GPLv3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kizzaris/SelfButt.git"
+  },
+  "main": "main.js",
   "scripts": {
     "test": "standard",
-    "start": "node index.js"
+    "unit": "standard && mocha test/unit --recursive",
+    "integration": "standard && mocha test/integration --recursive",
+    "coverage": "istanbul cover node_modules/.bin/_mocha -- --recursive",
+    "depcheck": "dependency-check app --entry main.js --unused --no-dev",
+    "lint": "standard",
+    "start": "electron ./app/main",
+    "clean:linux": "rimraf dist/linux* dist/*.deb dist/*.AppImage",
+    "clean:osx": "rimraf dist/mac",
+    "clean:win": "rimraf dist/win*",
+    "clean": "npm run clean:linux && npm run clean:win && npm run clean:osx",
+    "pack:osx": "build --dir --mac",
+    "pack:win": "build --dir --win --x64",
+    "pack:linux": "build --dir --linux --x64",
+    "pack": "build --dir",
+    "prebuild": "node build/target.js",
+    "build:osx": "npm run prebuild && build --mac && npm run postbuild",
+    "build:win": "npm run prebuild && build --win --x64 && npm run postbuild",
+    "build:linux": "npm run prebuild && build --linux deb AppImage --x64 && npm run postbuild",
+    "build": "build",
+    "postbuild": "node build/target.js --clean",
+    "postinstall": "install-app-deps"
   },
-  "author": "Noculi",
-  "license": "GPLv3",
-  "dependencies": {
-    "discogs-client": "^0.5.1",
+  "standard": {
+    "globals": [
+      "describe",
+      "after",
+      "it",
+      "before",
+      "beforeEach",
+      "afterEach",
+      "rm",
+      "cp"
+    ]
+  },
+  "pre-commit": [
+    "lint",
+    "unit"
+  ],
+  "keywords": [
+    "electron-app",
+    "electron",
+    "boilerplate"
+  ],
+  "build": {
+    "appId": "cf.kizzaris.selfbutt",
+    "productName": "Selfbutt",
+    "dmg": {
+      "iconSize": 120,
+      "iconTextSize": 14,
+      "contents": [
+        {
+          "x": 478,
+          "y": 170,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 170,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {
+      "category": "public.app-category.business"
+    },
+    "linux": {
+      "category": "Development"
+    },
+    "win": {}
+  },
+  "devDependencies": {
+    "async": "^2",
+    "chai": "^3",
+    "chai-as-promised": "^6",
+    "dependency-check": "^2",
+    "electron-builder": "^7",
+    "electron-prebuilt": "^1",
+    "istanbul": "^0.4",
+    "mocha": "^3",
+    "pre-commit": "^1",
+    "rimraf": "^2",
+    "shelljs": "^0.7",
+    "spectron": "^3",
+    "standard": "^8",
+    "discord-rpc": "^3.0.0-beta.3",
+    "electron": "^1.7.9",
     "eris": "github:abalabahaha/eris#dev",
     "express": "^4.15.4",
     "google": "^2.1.0",
@@ -19,12 +109,12 @@
     "moment": "^2.18.1",
     "request": "^2.81.0"
   },
-  "devDependencies": {
-    "standard": "^10.0.3"
-  },
   "standard": {
     "ignore": [
-      "/public/"
+      "/app/js/",
+      "/app/lib/",
+      "/test/",
+      "/build/"
     ]
   }
 }
