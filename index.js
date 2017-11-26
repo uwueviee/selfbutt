@@ -58,12 +58,12 @@ var location = config.songInfoLocation
 
 function checkForUpdate () {
   var options = {
-    url: 'https://raw.githubusercontent.com/Noculi/selfbutt/master/package.json',
+    url: 'https://raw.githubusercontent.com/Kizzaris/selfbutt/master/package.json',
     method: 'GET',
     headers: {
       'Accept': 'application/json',
       'Accept-Charset': 'utf-8',
-      'User-Agent': 'selfbutt-noculi/' + packageJSON.version
+      'User-Agent': 'selfbutt-kizzaris/' + packageJSON.version
     }
   }
   request(options, function (err, res, body) {
@@ -150,7 +150,7 @@ setInterval(function () {
       } else {
         writeSongTxt(data)
         webLogger('Song updated to "' + data + '"')
-        bot.editStatus({name: '🎶 ' + data, type: 0})
+        bot.editStatus({name: data, type: 2})
         logItPls('Song updated to ' + data)
       }
     })
@@ -180,7 +180,7 @@ function logItPls (whathappened) {
       description: whathappened,
       color: 0x008000,
       footer: {
-        text: 'SelfButt ' + packageJSON.version + ' by Noculi'
+        text: 'SelfButt ' + packageJSON.version + ' by Kizzaris'
       }
     }
   })

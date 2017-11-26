@@ -19,7 +19,7 @@ function handler (bot, msg, args) {
           },
           color: 0x008000,
           footer: {
-            text: 'SelfButt ' + packageJSON.version + ' by Noculi'
+            text: 'SelfButt ' + packageJSON.version + ' by Kizzaris'
           }
         }
       })
