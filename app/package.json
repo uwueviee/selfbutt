@@ -1,0 +1,36 @@
+{
+  "name": "SelfButt",
+  "productName": "SelfButt",
+  "description": "A Discord self bot.",
+  "version": "0.5.0",
+  "homepage": "https://github.com/Kizzaris/SelfButt",
+  "author": {
+    "name": "Alcide Viau",
+    "email": "alcide.viau@gmail.com"
+  },
+  "license": "GPLv3",
+  "main": "main.js",
+  "electronVersion": "1.0.0",
+  "dependencies": {
+    "devtron": "^1",
+    "electron-debug": "^1",
+    "electron-is-dev": "^0.1",
+    "electron-window-state": "^3",
+    "lodash": "^4",
+    "discord-rpc": "^3.0.0-beta.3",
+    "electron": "^1.7.9",
+    "eris": "github:abalabahaha/eris#dev",
+    "express": "^4.15.4",
+    "google": "^2.1.0",
+    "imgur-node-api": "^0.1.0",
+    "mkdirp": "^0.5.1",
+    "moment": "^2.18.1",
+    "request": "^2.81.0"
+  },
+  "config": {
+    "url": "index.html",
+    "update": {
+      "url": false
+    }
+  }
+}
