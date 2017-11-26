@@ -5,22 +5,21 @@ const app = electron.app
 const Menu = require('electron').Menu
 const dialog = require('electron').dialog
 const ipc = require('electron').ipcMain
+const Tray = require('electron').Tray
 const path = require('path')
 const pjson = require('./package.json')
-const _ = require('lodash')
 const windowStateKeeper = require('electron-window-state')
 const Eris = require('eris')
 const fs = require('fs')
 const os = require('os')
 const moment = require('moment')
 const mkdirp = require('mkdirp')
-const request = require('request')
 const express = require('express')
 const serverapp = express()
 const pathModule = require('path')
 // const Discogs = require('discogs-client')
 const packageJSON = require('./package.json')
-const DiscordRPC = require('discord-rpc');
+const DiscordRPC = require('discord-rpc')
 
 // Use system log facility, should work on Windows too
 require('./lib/log')(pjson.productName || 'SelfButt')
@@ -29,16 +28,9 @@ require('./lib/log')(pjson.productName || 'SelfButt')
 process.on('uncaughtException', (e) => {
   console.error(`Caught unhandled exception: ${e}`)
   dialog.showErrorBox('Caught unhandled exception', e.message || 'Unknown error message')
+  dialog.showErrorBox('AAAAAAAAAAAAAAAAAA', 'AAAAAAAAAAAAAAAAAA' || 'AAAAAAAAAAAAAAAAAA')
   app.quit()
 })
-
-// Load build target configuration file
-try {
-  var config = require('./config.json')
-  _.merge(pjson.config, config)
-} catch (e) {
-  console.warn('No config file loaded, using defaults')
-}
 
 const isDev = (require('electron-is-dev') || pjson.config.debug)
 global.appSettings = pjson.config
@@ -49,7 +41,7 @@ if (isDev) {
   console.info('Running in production')
 }
 
-const rpc = new DiscordRPC.Client({ transport: 'ipc' });
+const rpc = new DiscordRPC.Client({ transport: 'ipc' })
 
 console.debug(JSON.stringify(pjson.config))
 
@@ -74,13 +66,6 @@ function initialize () {
   // Use printer utility lib (requires printer module, see README)
   // require('./lib/printer')
 
-  function onClosed () {
-    // Dereference used windows
-    // for multiple windows store them in an array
-    mainWindow = null
-    infoWindow = null
-  }
-
   function createMainWindow () {
     // Load the previous window state with fallback to defaults
     let mainWindowState = windowStateKeeper({
@@ -88,7 +73,7 @@ function initialize () {
       defaultHeight: 768
     })
 
-    const win = new electron.BrowserWindow({
+    var win = new electron.BrowserWindow({
       'width': mainWindowState.width,
       'height': mainWindowState.height,
       'x': mainWindowState.x,
@@ -109,9 +94,32 @@ function initialize () {
 
     // Remove file:// if you need to load http URLs
     win.loadURL(`file://${__dirname}/${pjson.config.url}`, {})
-
-    win.on('closed', onClosed)
-
+    var appIcon = new Tray(path.join(__dirname, '/assets/img/icon.png'))
+    var contextMenu = Menu.buildFromTemplate([{
+      label: 'Show App',
+      click: function () {
+        win.show()
+      }
+    },
+      {
+        label: 'Quit',
+        click: function () {
+          app.isQuiting = true
+          app.quit()
+        }
+      }
+    ])
+    appIcon.setContextMenu(contextMenu)
+    win.on('close', function (event) {
+      win = null
+    })
+    win.on('minimize', function (event) {
+      event.preventDefault()
+      win.hide()
+    })
+    win.on('show', function () {
+      appIcon.setHighlightMode('always')
+    })
     // Then, when everything is loaded, show the window and focus it so it pops up for the user
     // Yon can also use: win.webContents.on('did-finish-load')
     win.on('ready-to-show', () => {
@@ -152,12 +160,6 @@ function initialize () {
     return win
   }
 
-  app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-      app.quit()
-    }
-  })
-
   app.on('activate', () => {
     if (!mainWindow) {
       mainWindow = createMainWindow()
@@ -176,32 +178,29 @@ function initialize () {
       })
       ipc.on('update-downloaded', (autoUpdater) => {
         // Elegant solution: display unobtrusive notification messages
-        mainWindow.webContents.send('update-downloaded')
-        ipc.on('update-and-restart', () => {
-          autoUpdater.quitAndInstall()
-        })
+        // mainWindow.webContents.send('update-downloaded')
+        // ipc.on('update-and-restart', () => {
+        //   autoUpdater.quitAndInstall()
+        // })
 
         // Basic solution: display a message box to the user
-        // var updateNow = dialog.showMessageBox(mainWindow, {
-        //   type: 'question',
-        //   buttons: ['Yes', 'No'],
-        //   defaultId: 0,
-        //   cancelId: 1,
-        //   title: 'Update available',
-        //   message: 'There is an update available, do you want to restart and install it now?'
-        // })
-        //
-        // if (updateNow === 0) {
-        //   autoUpdater.quitAndInstall()
-        // }
+        var updateNow = dialog.showMessageBox(mainWindow, {
+          type: 'question',
+          buttons: ['Yes', 'No'],
+          defaultId: 0,
+          cancelId: 1,
+          title: 'Update available',
+          message: 'There is an update available, do you want to restart and install it now?'
+        })
+        if (updateNow === 0) {
+          autoUpdater.quitAndInstall()
+        }
       })
     } catch (e) {
       console.error(e.message)
       dialog.showErrorBox('Update Error', e.message)
     }
   })
-
-  app.on('will-quit', () => {})
 
   ipc.on('open-info-window', () => {
     if (infoWindow) {
@@ -242,7 +241,6 @@ function createMenu () {
 
 // Manage Squirrel startup event (Windows)
 require('./lib/auto-update/startup')(initialize)
-
 
 // Spoopy
 var commands = []
@@ -289,8 +287,7 @@ var bot = new Eris(config.token)
 var ownerID = config.ownerID
 var prefix = config.prefix
 var location = config.songInfoLocation
-const ClientId = '384250935620141066';
-
+const ClientId = '384250935620141066'
 
 bot.on('messageCreate', (msg) => {
   if (msg.author.id === ownerID) {
@@ -349,24 +346,23 @@ bot.on('messageCreate', (msg) => {
   }
 })
 
+async function setActivity (data) {
+  if (!rpc || !mainWindow) {
+    return
+  }
 
-async function setActivity(data) {
-  if (!rpc || !mainWindow)
-    return;
-
-  var startTimestamp = new Date();
-  const boops = await mainWindow.webContents.executeJavaScript('window.boops');
+  var startTimestamp = new Date()
 
   rpc.setActivity({
-          details: data,
-          state: 'Listening to Music',
-          startTimestamp,
-          largeImageKey: 'old_man_rave',
-          largeImageText: 'time to rave',
-          smallImageKey: 'note',
-          smallImageText: `it's music or something idk`,
-          instance: false,
-  });
+    details: data,
+    state: 'Listening to Music or Something IDK',
+    startTimestamp,
+    largeImageKey: 'old_man_rave',
+    largeImageText: 'time to rave',
+    smallImageKey: 'note',
+    smallImageText: `it's music or something idk`,
+    instance: false
+  })
 }
 
 setInterval(function () {
@@ -383,7 +379,7 @@ setInterval(function () {
       } else {
         writeSongTxt(data)
         webLogger('Song updated to "' + data + '"')
-        setActivity(data);
+        setActivity(data)
         logItPls('Song updated to ' + data)
       }
     })
@@ -487,6 +483,24 @@ serverapp.listen(config.port, function () {
 process.title = 'SelfButt'
 if (fs.existsSync('./lastsong.txt')) {
   writeLogsTxt('')
+  fs.readFile('./lastsong.txt', 'utf8', function (err, lastSong) {
+    if (err) {
+      return webLogger(err)
+    }
+    fs.readFile(location, 'utf8', function (err, data) {
+      if (err) {
+        return webLogger(err)
+      }
+      if (lastSong === data) {
+        webLogger('Song was already ' + data + '. Skipping change.')
+      } else {
+        writeSongTxt(data)
+        webLogger('Song updated to "' + data + '"')
+        setActivity(data)
+        logItPls('Song updated to ' + data)
+      }
+    })
+  })
 } else {
   logItPls("Looks like you're new to SelfButt! You can take a look on the wiki for commands or use sb.commands!")
   writeSongTxt('SelfButt First Boot')
@@ -494,21 +508,4 @@ if (fs.existsSync('./lastsong.txt')) {
 }
 
 bot.connect()
-rpc.login(ClientId).catch(console.error);
-
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
-app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow()
-  }
-})
+rpc.login(ClientId).catch(console.error)

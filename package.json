@@ -58,8 +58,8 @@
     "boilerplate"
   ],
   "build": {
-    "appId": "com.bzcoding.skelektron",
-    "productName": "SkelEktron",
+    "appId": "cf.kizzaris.selfbutt",
+    "productName": "Selfbutt",
     "dmg": {
       "iconSize": 120,
       "iconTextSize": 14,
@@ -108,5 +108,13 @@
     "mkdirp": "^0.5.1",
     "moment": "^2.18.1",
     "request": "^2.81.0"
+  },
+  "standard": {
+    "ignore": [
+      "/app/js/",
+      "/app/lib/",
+      "/test/",
+      "/build/"
+    ]
   }
 }

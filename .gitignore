@@ -3,14 +3,12 @@ node_modules
 .idea
 npm-debug.log
 
-app/config\.json
-
-app/commandDeps/songInfo\.json
-
-*.db
-
-app/logs\.txt
-
 logs\.txt
 
 lastsong\.txt
+
+app/img/Thumbs\.db
+
+app/config\.json
+
+app/commandDeps/songInfo\.json
