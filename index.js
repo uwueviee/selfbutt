@@ -9,6 +9,7 @@ const app = express()
 const pathModule = require('path')
 // const Discogs = require('discogs-client')
 const packageJSON = require('./package.json')
+const DiscordRPC = require('discord-rpc');
 
 // Spoopy
 var commands = []
@@ -55,6 +56,8 @@ var bot = new Eris(config.token)
 var ownerID = config.ownerID
 var prefix = config.prefix
 var location = config.songInfoLocation
+const ClientId = '384250935620141066';
+const rpc = new DiscordRPC.Client({ transport: 'ipc' });
 
 function checkForUpdate () {
   var options = {
@@ -150,7 +153,17 @@ setInterval(function () {
       } else {
         writeSongTxt(data)
         webLogger('Song updated to "' + data + '"')
-        bot.editStatus({name: data, type: 2})
+        const startTimestamp = new Date();
+        rpc.setActivity({
+          details: data,
+          state: 'Listening to Music',
+          startTimestamp,
+          largeImageKey: 'old_man_rave',
+          largeImageText: 'time to rave',
+          smallImageKey: 'note',
+          smallImageText: `it's music or something idk`,
+          instance: false,
+        });
         logItPls('Song updated to ' + data)
       }
     })
