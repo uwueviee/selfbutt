@@ -1,3 +1,4 @@
+const electron = require('electron')
 const Eris = require('eris')
 const fs = require('fs')
 const os = require('os')
@@ -5,11 +6,18 @@ const moment = require('moment')
 const mkdirp = require('mkdirp')
 const request = require('request')
 const express = require('express')
-const app = express()
+const serverapp = express()
 const pathModule = require('path')
 // const Discogs = require('discogs-client')
 const packageJSON = require('./package.json')
 const DiscordRPC = require('discord-rpc');
+
+const app = electron.app
+
+const BrowserWindow = electron.BrowserWindow
+
+const path = require('path')
+const url = require('url')
 
 // Spoopy
 var commands = []
@@ -57,6 +65,40 @@ var ownerID = config.ownerID
 var prefix = config.prefix
 var location = config.songInfoLocation
 const ClientId = '384250935620141066';
+
+
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
+let mainWindow
+
+function createWindow () {
+  // Create the browser window.
+  mainWindow = new BrowserWindow({width: 800, height: 600})
+
+  // and load the index.html of the app.
+  mainWindow.loadURL(url.format({
+    pathname: path.join(__dirname, '/public/index.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+
+  // Open the DevTools.
+  // mainWindow.webContents.openDevTools()
+
+  // Emitted when the window is closed.
+  mainWindow.on('closed', function () {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    mainWindow = null
+  })
+}
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', createWindow)
+
 const rpc = new DiscordRPC.Client({ transport: 'ipc' });
 
 function checkForUpdate () {
@@ -218,43 +260,43 @@ function webLogger (data) {
   })
 }
 
-app.use(express.static('public'))
+serverapp.use(express.static('public'))
 
-app.get('/apiV1/shutdown', function (req, res) {
+serverapp.get('/apiV1/shutdown', function (req, res) {
   webLogger('Shutting down SelfButt.')
   res.send('<h1>Server has caught fire</h1><br /><i>Same thing as shutting down right?</i><br /><img src="https://i.imgur.com/daF13vl.gif" />')
   process.exit(0)
 })
 
-app.get('/apiV1/reboot', function (req, res) {
+serverapp.get('/apiV1/reboot', function (req, res) {
   res.send('Rebooting. <a href="http://localhost:' + config.port + '/">Click here to go back to the dashboard</a>')
   startNet()
   process.exit(0)
 })
 
-app.get('/apiV1/configChange', function (req, res) {
+serverapp.get('/apiV1/configChange', function (req, res) {
   webLogger('Changing SelfButt config.')
 })
 
-app.get('/apiV1/config', function (req, res) {
+serverapp.get('/apiV1/config', function (req, res) {
   fs.readFile('./config.json', 'utf8', function (err, data) {
     if (err) throw err
     res.send(data)
   })
 })
 
-app.get('/apiV1/logs', function (req, res) {
+serverapp.get('/apiV1/logs', function (req, res) {
   fs.readFile('./logs.txt', 'utf8', function (err, data) {
     if (err) throw err
     res.send(data)
   })
 })
 
-app.get('/apiV1/commands', function (req, res) {
+serverapp.get('/apiV1/commands', function (req, res) {
   res.send(commands)
 })
 
-app.get('/apiV1/info', function (req, res) {
+serverapp.get('/apiV1/info', function (req, res) {
   fs.readFile(location, 'utf8', function (err, data) {
     if (err) throw err
     var finalRes = '{' + '"version":"' + packageJSON.version + '",' + '"currentSong":"' + data + '",' + '"totalGuilds":"' + bot.guilds.size + '",' + '"totalChannels":"' + Object.keys(bot.channelGuildMap).length + '",' + '"onlineUsers":"' + bot.users.size + '"}'
@@ -262,7 +304,7 @@ app.get('/apiV1/info', function (req, res) {
   })
 })
 
-app.listen(config.port, function () {
+serverapp.listen(config.port, function () {
   webLogger('You can manage your bot over at "http://localhost:' + config.port + '"')
 })
 
@@ -278,3 +320,20 @@ if (fs.existsSync('./lastsong.txt')) {
 }
 
 bot.connect()
+
+// Quit when all windows are closed.
+app.on('window-all-closed', function () {
+  // On OS X it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
+
+app.on('activate', function () {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (mainWindow === null) {
+    createWindow()
+  }
+})
